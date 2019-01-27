@@ -142,7 +142,7 @@
 <meta property="og:image" content="https://holylcd.github.io/2018/07/26/d77224a0222f11e9b4a33dbd7fc368d0/0006.png">
 <meta property="og:image" content="https://holylcd.github.io/2018/07/26/d77224a0222f11e9b4a33dbd7fc368d0/0007.png">
 <meta property="og:image" content="https://holylcd.github.io/2018/07/26/d77224a0222f11e9b4a33dbd7fc368d0/0008.png">
-<meta property="og:updated_time" content="2019-01-27T12:56:53.582Z">
+<meta property="og:updated_time" content="2019-01-27T13:25:26.137Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Making a round picture with PowerPoint 2016">
 <meta name="twitter:description" content="Sometime we need to make a round image, but there are no tools like Photoshop and GIMP on our computer. However, we don’t want to install these tools. Is there an easy way? Yes, we can do it with Powe">
@@ -499,7 +499,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-01-27 20:56:53" itemprop="dateModified" datetime="2019-01-27T20:56:53+08:00">2019-01-27</time>
+                <time title="修改时间：2019-01-27 21:25:26" itemprop="dateModified" datetime="2019-01-27T21:25:26+08:00">2019-01-27</time>
               
             
           </span>
@@ -572,7 +572,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-                <span title="本文字数">631</span>
+                <span title="本文字数">648</span>
               
 
               
@@ -607,6 +607,7 @@
 
       
         <p>Sometime we need to make a round image, but there are no tools like <a href="https://www.photoshop.com/" target="_blank" rel="noopener">Photoshop</a> and <a href="https://www.gimp.org/" target="_blank" rel="noopener">GIMP</a> on our computer. However, we don’t want to install these tools. Is there an easy way? Yes, we can do it with <a href="https://products.office.com/en-us/powerpoint" target="_blank" rel="noopener">PowerPoint 2016</a>. </p>
+<p>&lt; !–more–&gt;</p>
 <h3 id="Open-your-PowerPoint-2016-and-insert-an-image"><a href="#Open-your-PowerPoint-2016-and-insert-an-image" class="headerlink" title="Open your PowerPoint 2016 and insert an image"></a>Open your PowerPoint 2016 and insert an image</h3><p>Making-a-round-picture-with-PowerPoint-2016<img src="/2018/07/26/./d77224a0222f11e9b4a33dbd7fc368d0/0001.png" alt="image"></p>
 <h3 id="Insert-a-circle"><a href="#Insert-a-circle" class="headerlink" title="Insert a circle"></a>Insert a circle</h3><p><img src="/2018/07/26/./d77224a0222f11e9b4a33dbd7fc368d0/0002.png" alt="image"></p>
 <h3 id="Adjust-style"><a href="#Adjust-style" class="headerlink" title="Adjust style"></a>Adjust style</h3><p><img src="/2018/07/26/./d77224a0222f11e9b4a33dbd7fc368d0/0003.png" alt="image"></p>
@@ -1397,9 +1398,14 @@
               })
           } else {
             
-              var $element = $(document.getElementById(url));
-              $element.find('.leancloud-visitors-count').text('Counter not initialized! More info at console err msg.');
-              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+              Counter('post', '/classes/Counter', JSON.stringify({ title: title, url: url, time: 1 }))
+                .done(function() {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(1);
+                })
+                .fail(function() {
+                  console.log('Failed to create');
+                });
             
           }
         })
