@@ -142,7 +142,7 @@
 <meta property="og:image" content="https://holylcd.github.io/2018/07/26/d77224a0222f11e9b4a33dbd7fc368d0/0006.png">
 <meta property="og:image" content="https://holylcd.github.io/2018/07/26/d77224a0222f11e9b4a33dbd7fc368d0/0007.png">
 <meta property="og:image" content="https://holylcd.github.io/2018/07/26/d77224a0222f11e9b4a33dbd7fc368d0/0008.png">
-<meta property="og:updated_time" content="2019-01-27T13:25:26.137Z">
+<meta property="og:updated_time" content="2019-01-27T14:05:26.662Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Making a round picture with PowerPoint 2016">
 <meta name="twitter:description" content="Sometime we need to make a round image, but there are no tools like Photoshop and GIMP on our computer. However, we don’t want to install these tools. Is there an easy way? Yes, we can do it with Powe">
@@ -499,7 +499,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-01-27 21:25:26" itemprop="dateModified" datetime="2019-01-27T21:25:26+08:00">2019-01-27</time>
+                <time title="修改时间：2019-01-27 22:05:26" itemprop="dateModified" datetime="2019-01-27T22:05:26+08:00">2019-01-27</time>
               
             
           </span>
@@ -547,17 +547,6 @@
 
           
           
-             <span id="/2018/07/26/d77224a0222f11e9b4a33dbd7fc368d0.html" class="leancloud_visitors" data-flag-title="Making a round picture with PowerPoint 2016">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数：</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
 
           
 
@@ -572,7 +561,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-                <span title="本文字数">648</span>
+                <span title="本文字数">631</span>
               
 
               
@@ -607,7 +596,6 @@
 
       
         <p>Sometime we need to make a round image, but there are no tools like <a href="https://www.photoshop.com/" target="_blank" rel="noopener">Photoshop</a> and <a href="https://www.gimp.org/" target="_blank" rel="noopener">GIMP</a> on our computer. However, we don’t want to install these tools. Is there an easy way? Yes, we can do it with <a href="https://products.office.com/en-us/powerpoint" target="_blank" rel="noopener">PowerPoint 2016</a>. </p>
-<p>&lt; !–more–&gt;</p>
 <h3 id="Open-your-PowerPoint-2016-and-insert-an-image"><a href="#Open-your-PowerPoint-2016-and-insert-an-image" class="headerlink" title="Open your PowerPoint 2016 and insert an image"></a>Open your PowerPoint 2016 and insert an image</h3><p>Making-a-round-picture-with-PowerPoint-2016<img src="/2018/07/26/./d77224a0222f11e9b4a33dbd7fc368d0/0001.png" alt="image"></p>
 <h3 id="Insert-a-circle"><a href="#Insert-a-circle" class="headerlink" title="Insert a circle"></a>Insert a circle</h3><p><img src="/2018/07/26/./d77224a0222f11e9b4a33dbd7fc368d0/0002.png" alt="image"></p>
 <h3 id="Adjust-style"><a href="#Adjust-style" class="headerlink" title="Adjust style"></a>Adjust style</h3><p><img src="/2018/07/26/./d77224a0222f11e9b4a33dbd7fc368d0/0003.png" alt="image"></p>
@@ -1373,71 +1361,6 @@
 
 
   
-  
-  <script>
-    
-    function addCount(Counter) {
-      var $visitors = $('.leancloud_visitors');
-      var url = $visitors.attr('id').trim();
-      var title = $visitors.attr('data-flag-title').trim();
-
-      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
-        .done(function({ results }) {
-          if (results.length > 0) {
-            var counter = results[0];
-            
-            Counter('put', '/classes/Counter/' + counter.objectId, JSON.stringify({ time: { '__op': 'Increment', 'amount': 1 } }))
-            
-              .done(function() {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(counter.time + 1);
-              })
-            
-              .fail(function ({ responseJSON }) {
-                console.log(`Failed to save Visitor num, with error message: ${responseJSON.error}`);
-              })
-          } else {
-            
-              Counter('post', '/classes/Counter', JSON.stringify({ title: title, url: url, time: 1 }))
-                .done(function() {
-                  var $element = $(document.getElementById(url));
-                  $element.find('.leancloud-visitors-count').text(1);
-                })
-                .fail(function() {
-                  console.log('Failed to create');
-                });
-            
-          }
-        })
-        .fail(function ({ responseJSON }) {
-          console.log(`LeanCloud Counter Error: ${responseJSON.code} ${responseJSON.error}`);
-        });
-    }
-    
-
-    $(function() {
-      $.get('https://app-router.leancloud.cn/2/route?appId=' + '28EKoqhAF3XiwyBVnJ4Rm7ji-gzGzoHsz')
-        .done(function({ api_server }) {
-          var Counter = function(method, url, data) {
-            return $.ajax({
-              method: method,
-              url: 'https://' + api_server + '/1.1' + url,
-              headers: {
-                'X-LC-Id': '28EKoqhAF3XiwyBVnJ4Rm7ji-gzGzoHsz',
-                'X-LC-Key': 'aesShWGCUrGU6yPQ1SlDBi2o',
-                'Content-Type': 'application/json',
-              },
-              data: data
-            });
-          };
-          
-            addCount(Counter);
-          
-        });
-    });
-  </script>
-
-
 
   
 
