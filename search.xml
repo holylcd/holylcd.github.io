@@ -1,16 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[hexo 快速开始]]></title>
+    <url>%2F2019%2F01%2F29%2F228eebb0236d11e98dda932afa8a7309.html</url>
+    <content type="text"><![CDATA[hexo 是常用的静态网页构建工具，支持markdown，拥有丰富的插件。常用于构建个人博客。 环境OS window 10 1809 node 10.13.0 npm 6.6.0 PowerShell 5.1.17763.134 hexo 3.8.0 hexo-cli 1.1.0 开始构建shift+右键 启动 PowerShell，创建 hexo 目录（构建器项目） 1mkdir hexo 进入目录 1cd hexo 全局安装 hexo-cli，如果还没有安装nodejs和git，请参考hexo文档，此处不再重复记录 1npm install -g hexo-cli 初始化 hexo 1hexo init 安装依赖包 1npm install 生成静态资源 1hexo generate 或 hexo g 本地启动sever测试 1hexo server 浏览器访问 localhost:4000 可以看到一个简单的个人博客系统已经完成了！ 参考 hexo docs 更换主题这里以 Next v6.0.x 为例子 下载主题 12cd hexogit clone https://github.com/theme-next/hexo-theme-next themes/next 修改主题，修改./_config.yml中的theme为next 注意区分./themes/next/_config.yml 为了方便区分，下面更换称呼 ./_config.yml称为系统配置 ./themes/next/_config.yml称为主题配置 1theme: next 保存 清理缓存 1hexo clean 重新构建 1hexo g 本地启动 1hexo server 浏览器访问 localhost:4000 成功更换主题！ Hexo 优化 基本设置参考 title: xxx’s blogauthor: xxxlanguage: zh-CNtimezone: Asia/Shanghai 主题优化 添加评论系统 此处使用 valine 参考 快速申请 申请 leancloud 账号，并获取 APP ID 和 APP Key 打开主题配置./themes/next/_config.yml 定位到 valine 123enable: trueappid: &lt;APP ID&gt;appkey: &lt;APP Key&gt; 设置侧边栏 在主题配置中，找到sidebar 例如修改显示方式 display 1234#display: post 默认#display: always 总是显示display: hide 开始隐藏#display: remove 不显示 导航菜单 在主题配置中，找到menu 注释tags等，读者可以自由选择 1tags: /tags/ || tags 在根目录执行指令 1hexo new page &quot;tags&quot; 增加内容，关闭评论和指定页面类型 12comments: falsetype: &quot;tags&quot; 执行后，会创建文件夹./source/tags/，并在里面初始化tags页面的md文件index.md 重新构建后，可以看到页面多了一个导航栏tags 123hexo cleanhexo ghexo server 文章阅读数leancloud_visitors 在主题配置中，找到leancloud_visitors 填写 AppID 和 AppKey 12appid: &lt;APP ID&gt;appkey: &lt;APP Key&gt; 社交 在主题配置中，找到social 启用 social 添加相应的社交工具以及账号 Next主题开启字数统计及阅读时长 安装 hexo-symbols-count-time 1npm i hexo-symbols-count-time -D hexo 配置文件增加 12345symbols_count_time: symbols: true # 文章字数 time: true # 阅读时长 total_symbols: true # 所有文章总字数 total_time: true # 所有文章阅读中时长 Next 主题配置文件 123456symbols_count_time: separated_meta: true item_text_post: true item_text_total: false awl: 4 wpm: 275 永久连接 安装uuid 1npm install hexo-uuid --save 修改hexo配置文件 1permalink: :year:month:day:uuid/ 参考hexo+github博客搭建之路 hexo.io]]></content>
+      <categories>
+        <category>tool</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>blog</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Making a round picture with PowerPoint 2016]]></title>
     <url>%2F2018%2F07%2F26%2Fd77224a0222f11e9b4a33dbd7fc368d0.html</url>
     <content type="text"><![CDATA[Sometime we need to make a round image, but there are no tools like Photoshop and GIMP on our computer. However, we don’t want to install these tools. Is there an easy way? Yes, we can do it with PowerPoint 2016. Open your PowerPoint 2016 and insert an imageMaking-a-round-picture-with-PowerPoint-2016 Insert a circle Adjust style Adjust the position of the circle, the result is as follows: Next merge the circle and the image, select the circle and image (note: be sure to select the image first) Then merge Ok, now we have the picture we want. We can save it to use itIn this way, we use PowerPoint 2016 to make a round image.]]></content>
       <categories>
-        <category>Tools</category>
-        <category>Windows</category>
+        <category>tool</category>
       </categories>
       <tags>
         <tag>PowerPoint2016</tag>
-        <tag>Tools</tag>
       </tags>
   </entry>
 </search>
