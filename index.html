@@ -275,7 +275,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">2</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">3</span></a>
 
   </li>
         
@@ -396,6 +396,348 @@
           <div id="content" class="content">
             
   <section id="posts" class="posts-expand">
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://holylcd.github.io/2019/03/22/1e9e7c104c4811e98c245f558f23e5ab.html">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Holy">
+      <meta itemprop="description" content="隔岸观火永远无法明白起火的真相，只有置身风暴才能找到风眼所在">
+      <meta itemprop="image" content="/images/avatar_custom.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Holy's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/03/22/1e9e7c104c4811e98c245f558f23e5ab.html" itemprop="url">
+                  自建邮件服务器-开源集成方案iRedMail
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-03-22 10:13:44 / 修改时间：10:17:23" itemprop="dateCreated datePublished" datetime="2019-03-22T10:13:44+08:00">2019-03-22</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/03/22/1e9e7c104c4811e98c245f558f23e5ab.html#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2019/03/22/1e9e7c104c4811e98c245f558f23e5ab.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/03/22/1e9e7c104c4811e98c245f558f23e5ab.html" class="leancloud_visitors" data-flag-title="自建邮件服务器-开源集成方案iRedMail">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">2.9k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">3 分钟</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><p>系统 CentOS 7</p>
+<p>域名 example.com</p>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><ol>
+<li><p>设置 hostname</p>
+<p>RHEL/CentOS 6，<code>/etc/sysconfig/network</code></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HOSTNAME=mail</span><br></pre></td></tr></table></figure>
+<p>CentOS 7</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hostnamectl <span class="built_in">set</span>-hostname mail</span><br></pre></td></tr></table></figure>
+<p>例如完整域名是 mail.example.com，应该设置 mail</p>
+</li>
+</ol>
+<p>   验证主机名</p>
+   <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hostname -f</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li><p>设置 host</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1   mail.example.com mail localhost localhost.localdomain</span><br></pre></td></tr></table></figure>
+<p>FQDN 主机名列在第一个，短主机名列在第二个</p>
+</li>
+<li><p>设置 SELinux</p>
+<p>查看现状态</p>
+<p>iRedMail 不支持 SELinux，所以需要在 /etc/selinux/config 文件里禁用它</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELINUX=disabled</span><br></pre></td></tr></table></figure>
+<p>如果不希望禁用 SELinux，可以设置为让它打印警告信息但不强制限制</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELINUX=permissive</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>上传最新版 iRedMail 安装包</p>
+</li>
+<li><p>解压 iRedMail</p>
+<p>安装解压工具</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install  bzip2</span><br></pre></td></tr></table></figure>
+<p>解压</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /program</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar xjf iRedMail-x.y.z.tar.bz2</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>运行安装程序</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /root/iRedMail-x.y.z/</span><br><span class="line">bash iRedMail.sh</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装过程</p>
+<p>以下是官方安装过程</p>
+<ul>
+<li>欢迎和感谢使用</li>
+</ul>
+<p><img src="/2019/03/22/./1e9e7c104c4811e98c245f558f23e5ab/welcome.png" alt="img"></p>
+<ul>
+<li>指定用于存储用户邮箱的路径。默认是 <code>/var/vmail/</code>。</li>
+</ul>
+<p><img src="/2019/03/22/./1e9e7c104c4811e98c245f558f23e5ab/mail_storage.png" alt="img"></p>
+<ul>
+<li>选择用于存储邮件账号的数据库。</li>
+</ul>
+<p>Note</p>
+<p>各个数据库之间没有太大区别，建议使用自己熟悉的数据库，便于后期维护。</p>
+<p><img src="/2019/03/22/./1e9e7c104c4811e98c245f558f23e5ab/backends.png" alt="img"></p>
+<ul>
+<li>如果选择 OpenLDAP 数据库用于存储邮件账号，安装程序会要求你输入 LDAP 前缀：</li>
+</ul>
+<p><img src="/2019/03/22/./1e9e7c104c4811e98c245f558f23e5ab/ldap_suffix.png" alt="img"></p>
+<p>MySQL/MariaDB/PostgreSQL 用户</p>
+<p>如果选择 MySQL/MariaDB/PostgreSQL 用于存储邮件账号, 安装程序会为数据库的 root 用户生成一个随机的强密码，安装完成后可以在 <code>iRedMail.tips</code> 文件里找到。</p>
+<ul>
+<li>添加第一个邮件域名</li>
+</ul>
+<p><img src="/2019/03/22/./1e9e7c104c4811e98c245f558f23e5ab/first_domain.png" alt="img"></p>
+<p>这里填 example.com</p>
+<ul>
+<li>设置邮件管理员的密码</li>
+</ul>
+<p>Note</p>
+<p>该账号即是邮件管理员，也是普通的邮件账号，可以登录管理后台和 webmail。</p>
+<p><img src="/2019/03/22/./1e9e7c104c4811e98c245f558f23e5ab/admin_pw.png" alt="img"></p>
+<ul>
+<li>可选的组件</li>
+</ul>
+<p><img src="/2019/03/22/./1e9e7c104c4811e98c245f558f23e5ab/optional_components.png" alt="img"></p>
+<p>回答完上面的几个问题之后，安装程序给出本次安装的基本信息并要求确认是否实际 执行安装，请输入 <code>y</code> 或 <code>Y</code> 并按回车键确认，或 <code>n</code>, <code>N</code> 并按回车键中止安装。</p>
+<p><img src="/2019/03/22/./1e9e7c104c4811e98c245f558f23e5ab/review.png" alt="img"></p>
+</li>
+</ol>
+<p>安装完成后你必须知道的几个重要事项</p>
+<ul>
+<li>邮件服务器最薄弱的环节是用户的弱密码，所以请一定强制你的用户使用强度高的密码。</li>
+<li>阅读 /root/iRedMail-x.y.z/iRedMail.tips 文件，它包含了：<ul>
+<li>各个 web 程序的访问地址（URL），用户名和密码。</li>
+<li>各个组件的配置文件路径。除此之外还应该阅读文档：Locations of configuration and log files of major components.</li>
+<li>以及其它一些重要和敏感信息</li>
+</ul>
+</li>
+<li>设置 DNS 记录</li>
+<li>如何配置邮件客户端程序</li>
+<li>强烈建议获取 SSL 证书以避免每次访问 web 程序时烦人的自签名 SSL 证书警告， Let’s Encrypt 提供免费的 SSL 证书。可根据该文档 配置获取的证书：use a SSL certificate.</li>
+<li>如果需要批量添加邮件账号，可以参考以下针对不同数据库的批量建账号的文档： OpenLDAP， MySQL/MariaDB/PostgreSQL。</li>
+<li>如果这是一台繁忙的服务器，这里有一些提升性能的建议。</li>
+</ul>
+<p>访问 webmail 和其它 web 程序<br>安装完成后，可以通过以下 URL 访问相关程序。注意：请将 &lt;server> 替换为实际的 服务器地址。</p>
+<ul>
+<li>Roundcube webmail: <a href="https://mail.example.com/mail/" target="_blank" rel="noopener">https://mail.example.com/mail/</a></li>
+<li>SOGo Groupware: <a href="https://mail.example.com/SOGo" target="_blank" rel="noopener">https://mail.example.com/SOGo</a></li>
+<li>Web 管理后台: httpS://mail.example.com/iredadmin/</li>
+<li>Awstats: httpS://mail.example.com/awstats/awstats.pl?config=web (or <code>?config=smtp</code> for SMTP log)</li>
+</ul>
+<h1 id="DNS-设置"><a href="#DNS-设置" class="headerlink" title="DNS 设置"></a>DNS 设置</h1><p><img src="/2019/03/22/./1e9e7c104c4811e98c245f558f23e5ab/dns_settings.png" alt="img"></p>
+<p>SPF</p>
+<p>SPF 记录是一种域名服务 (DNS) 记录，可确定允许哪些邮件服务器代表您的域来发送电子邮件</p>
+<p>这里说几个常用的：</p>
+<ol>
+<li>a：所有该域名的A记录都为通过，a不指定的情况下为当前域名</li>
+<li>ip4：指定通过的IP</li>
+<li>mx：mx记录域名的A记录IP可以发邮件</li>
+<li>all：结束标志，“-”表示只允许设置的记录为通过，“~”表示失败，通常用于测试，“+”表示忽略SPF</li>
+</ol>
+<p>DKIM</p>
+<p>centos6</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">amavisd showkeys</span><br></pre></td></tr></table></figure>
+<p>centos7</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">amavisd -c /etc/amavisd/amavisd.conf showkeys</span><br></pre></td></tr></table></figure>
+<p>复制结果，添加到DNS，主机记录为<code>dkim._domainkey</code>，<code>TXT</code>类别</p>
+<p>DMARC</p>
+<p>DMARC协议是有效解决信头From伪造而诞生的一种新的邮件来源验证手段，为邮件发件人地址提供强大保护，并在邮件收发双方之间建立起一个数据反馈机制。</p>
+<ul>
+<li>p：用于告知收件方，当检测到某邮件存在伪造我（发件人）的情况，收件方要做出什么处理，处理方式从轻到重依次为：none为不作任何处理；quarantine为将邮件标记为垃圾邮件；reject为拒绝该邮件。初期建议设置为none。</li>
+<li>rua：用于在收件方检测后，将一段时间的汇总报告，发送到哪个邮箱地址。</li>
+<li>ruf：用于当检测到伪造邮件时，收件方须将该伪造信息的报告发送到哪个邮箱地址。</li>
+</ul>
+<p>例如我设置的是v=DMARC1;p=reject;<a href="mailto:rua=xx@lxx.com" target="_blank" rel="noopener">rua=xx@lxx.com</a>，意思是拒绝伪造邮件，并且将一段时间的汇总报告发送给我。</p>
+<p>添加到DNS</p>
+<p>添加TXT记录，主机名：<code>_dmarc</code>，记录值：<code>v=DMARC1;p=reject;rua=xx@lxx.com</code></p>
+<p>PTR</p>
+<p>将 mail.xx.com 设置PTR</p>
+<p>添加好了以后可以通过以下命令查看</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dig -x  IP</span><br></pre></td></tr></table></figure>
+<p>如果看到了PTR记录为你的域名那就说明成功了。</p>
+<p>测试工具</p>
+<p><a href="http://www.mail-tester.com/" target="_blank" rel="noopener">http://www.mail-tester.com/</a></p>
+<p><strong>iRedmail 主要组件</strong></p>
+<ul>
+<li>Apache</li>
+<li>Nginx </li>
+<li>PHP</li>
+<li>MySQL</li>
+<li>OpenLDAP</li>
+<li>Postfix</li>
+<li>Dovecot</li>
+<li>Amavisd</li>
+<li>ClamAV</li>
+<li>SpamAssassin</li>
+<li>Policyd</li>
+<li>Pysieved</li>
+<li>Roundcube</li>
+<li>Awstats 6.9</li>
+</ul>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://docs.iredmail.org/install.iredmail.on.rhel-zh_CN.html" target="_blank" rel="noopener">iRedMail doc</a></p>
+<p><a href="lomu.me/post/SPF-DKIM-DMARC-PTR">邮件服务器添加SPF、DKIM、DMARC、PTR提高送达率</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+	
+	
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
     
       
 
@@ -880,7 +1222,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-count">3</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -998,7 +1340,7 @@
       <i class="fa fa-area-chart"></i>
     </span>
     
-    <span title="站点总字数">3k</span>
+    <span title="站点总字数">6k</span>
   
 
   
@@ -1007,7 +1349,7 @@
       <i class="fa fa-coffee"></i>
     </span>
     
-    <span title="站点阅读时长">2 分钟</span>
+    <span title="站点阅读时长">5 分钟</span>
   
 </div>
 
