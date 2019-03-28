@@ -134,20 +134,20 @@
 <meta property="og:site_name" content="Holy&#39;s blog">
 <meta property="og:description" content="环境CentOS 7 组件Postfix Dovecot MySQL 5.7 OpenDKIM Nginx PHP Roundcube WebMail Policyd 安装MySQL从mysql下载离线包 1wget https://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-5.7.25-1.el7.x86_64.rpm-bundle.tar 解压包">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://holylcd.github.io/2019/03/28/be066140513011e98a97e9942f6fcdb5/images/mysql.jpg">
-<meta property="og:image" content="https://holylcd.github.io/2019/03/28/be066140513011e98a97e9942f6fcdb5/images/dns_settings.png">
-<meta property="og:image" content="https://holylcd.github.io/2019/03/28/be066140513011e98a97e9942f6fcdb5/images/roundcube_01.png">
-<meta property="og:image" content="https://holylcd.github.io/2019/03/28/be066140513011e98a97e9942f6fcdb5/images/roundcube_02.png">
-<meta property="og:image" content="https://holylcd.github.io/2019/03/28/be066140513011e98a97e9942f6fcdb5/images/roundcube_03.png">
-<meta property="og:image" content="https://holylcd.github.io/2019/03/28/be066140513011e98a97e9942f6fcdb5/images/roundcube_04.png">
-<meta property="og:image" content="https://holylcd.github.io/2019/03/28/be066140513011e98a97e9942f6fcdb5/images/roundcube_05.png">
-<meta property="og:image" content="https://holylcd.github.io/2019/03/28/be066140513011e98a97e9942f6fcdb5/images/roundcube_06.png">
-<meta property="og:image" content="https://holylcd.github.io/2019/03/28/be066140513011e98a97e9942f6fcdb5/images/roundcube_07.png">
-<meta property="og:updated_time" content="2019-03-28T08:11:47.907Z">
+<meta property="og:image" content="https://holylcd.github.io/2019/03/28/be066140513011e98a97e9942f6fcdb5/mysql.jpg">
+<meta property="og:image" content="https://holylcd.github.io/2019/03/28/be066140513011e98a97e9942f6fcdb5/dns_settings.png">
+<meta property="og:image" content="https://holylcd.github.io/2019/03/28/be066140513011e98a97e9942f6fcdb5/roundcube_01.png">
+<meta property="og:image" content="https://holylcd.github.io/2019/03/28/be066140513011e98a97e9942f6fcdb5/roundcube_02.png">
+<meta property="og:image" content="https://holylcd.github.io/2019/03/28/be066140513011e98a97e9942f6fcdb5/roundcube_03.png">
+<meta property="og:image" content="https://holylcd.github.io/2019/03/28/be066140513011e98a97e9942f6fcdb5/roundcube_04.png">
+<meta property="og:image" content="https://holylcd.github.io/2019/03/28/be066140513011e98a97e9942f6fcdb5/roundcube_05.png">
+<meta property="og:image" content="https://holylcd.github.io/2019/03/28/be066140513011e98a97e9942f6fcdb5/roundcube_06.png">
+<meta property="og:image" content="https://holylcd.github.io/2019/03/28/be066140513011e98a97e9942f6fcdb5/roundcube_07.png">
+<meta property="og:updated_time" content="2019-03-28T08:21:42.101Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="自选组件搭建邮件服务器 CentOS">
 <meta name="twitter:description" content="环境CentOS 7 组件Postfix Dovecot MySQL 5.7 OpenDKIM Nginx PHP Roundcube WebMail Policyd 安装MySQL从mysql下载离线包 1wget https://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-5.7.25-1.el7.x86_64.rpm-bundle.tar 解压包">
-<meta name="twitter:image" content="https://holylcd.github.io/2019/03/28/be066140513011e98a97e9942f6fcdb5/images/mysql.jpg">
+<meta name="twitter:image" content="https://holylcd.github.io/2019/03/28/be066140513011e98a97e9942f6fcdb5/mysql.jpg">
 
 
 
@@ -464,7 +464,7 @@
                 
               
 
-              <time title="创建时间：2019-03-28 16:08:59 / 修改时间：16:11:47" itemprop="dateCreated datePublished" datetime="2019-03-28T16:08:59+08:00">2019-03-28</time>
+              <time title="创建时间：2019-03-28 16:08:59 / 修改时间：16:21:42" itemprop="dateCreated datePublished" datetime="2019-03-28T16:08:59+08:00">2019-03-28</time>
             
 
             
@@ -571,7 +571,7 @@
 <p>安装需要的包</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install mysql-community-&#123;server,client,common,libs&#125;-*</span><br></pre></td></tr></table></figure>
 <p>安装生成文件</p>
-<p><img src="/2019/03/28/./be066140513011e98a97e9942f6fcdb5/images/mysql.jpg" alt=""></p>
+<p><img src="/2019/03/28/./be066140513011e98a97e9942f6fcdb5/mysql.jpg" alt=""></p>
 <p>启动</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl start mysqld</span><br></pre></td></tr></table></figure>
 <p>设置root密码</p>
@@ -766,7 +766,7 @@
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">v=DKIM1; k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDU5nkxbS36hOa2FCJqotvahTbxb83CvLt5XqV4WAPzJQmfaA1eHyvOz9XiZgE8vWRgP2jJFlL+J4yEroB3YV/8EBjAM8lFTi31DVgRsoHMwH6f3GuLAfcuVofymDfRxHxPzIlm7rgzfWwrGcPrIzt64NLuZG4yusTWp8MTfWZxvQIDAQAB</span><br></pre></td></tr></table></figure>
 <p>在域名控制面板中添加一条记录，<strong>主机记录</strong>填 <strong>mail._domainkey</strong> ,<strong>记录类型</strong>选 <strong>TXT</strong> ,<strong>记录值</strong>填 <strong>v=DKIM1; k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDU5nkxbS36hOa2FCJqotvahTbxb83CvLt5XqV4WAPzJQmfaA1eHyvOz9XiZgE8vWRgP2jJFlL+J4yEroB3YV/8EBjAM8lFTi31DVgRsoHMwH6f3GuLAfcuVofymDfRxHxPzIlm7rgzfWwrGcPrIzt64NLuZG4yusTWp8MTfWZxvQIDAQAB</strong>，其他保持默认，保存即可。</p>
 <p>最终效果如图</p>
-<p><img src="/2019/03/28/./be066140513011e98a97e9942f6fcdb5/images/dns_settings.png" alt=""></p>
+<p><img src="/2019/03/28/./be066140513011e98a97e9942f6fcdb5/dns_settings.png" alt=""></p>
 <h3 id="IP-反向解析的设定"><a href="#IP-反向解析的设定" class="headerlink" title="IP 反向解析的设定"></a>IP 反向解析的设定</h3><p>这个……普通家庭宽带用户就别想了，企业宽带和国内云主机用户需要网站通过备案才能设置。如果用国外云主机的话，有些可以支持。为您的域名配置 IP 地址反向解析可以大幅降低外发邮件被拒收的几率。</p>
 <h2 id="过滤沟通-Amavisd-new"><a href="#过滤沟通-Amavisd-new" class="headerlink" title="过滤沟通 Amavisd-new"></a>过滤沟通 Amavisd-new</h2><p><a href="https://blog.51cto.com/freeloda/1246350" target="_blank" rel="noopener">安装并配置病毒扫描与垃圾邮件过滤</a></p>
 <h2 id="病毒扫描-ClamAV"><a href="#病毒扫描-ClamAV" class="headerlink" title="病毒扫描 ClamAV"></a>病毒扫描 ClamAV</h2><h2 id="垃圾邮件过滤-SpamAssassin"><a href="#垃圾邮件过滤-SpamAssassin" class="headerlink" title="垃圾邮件过滤 SpamAssassin"></a>垃圾邮件过滤 SpamAssassin</h2><h2 id="Policyd-白名单"><a href="#Policyd-白名单" class="headerlink" title="Policyd 白名单"></a>Policyd 白名单</h2><p><a href="https://wiki.policyd.org/download" target="_blank" rel="noopener">官网</a>下载</p>
@@ -852,13 +852,13 @@
 <p>CentOS 7</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl <span class="built_in">enable</span> nginx php-fpm</span><br></pre></td></tr></table></figure>
 <h3 id="配置-Roundcube"><a href="#配置-Roundcube" class="headerlink" title="配置 Roundcube"></a>配置 Roundcube</h3><p>打开浏览器，输入 <a href="https://mail.example.com/installer/?_step=1" target="_blank" rel="noopener">https://mail.example.com/installer/?_step=1</a> ，回车打开。然后按图片提示进行配置。</p>
-<p><img src="/2019/03/28/./be066140513011e98a97e9942f6fcdb5/images/roundcube_01.png" alt="img"></p>
-<p><img src="/2019/03/28/./be066140513011e98a97e9942f6fcdb5/images/roundcube_02.png" alt="img"></p>
-<p><img src="/2019/03/28/./be066140513011e98a97e9942f6fcdb5/images/roundcube_03.png" alt="img"></p>
-<p><img src="/2019/03/28/./be066140513011e98a97e9942f6fcdb5/images/roundcube_04.png" alt="img"></p>
-<p><img src="/2019/03/28/./be066140513011e98a97e9942f6fcdb5/images/roundcube_05.png" alt="img"></p>
-<p><img src="/2019/03/28/./be066140513011e98a97e9942f6fcdb5/images/roundcube_06.png" alt="img"></p>
-<p><img src="/2019/03/28/./be066140513011e98a97e9942f6fcdb5/images/roundcube_07.png" alt="img"></p>
+<p><img src="/2019/03/28/./be066140513011e98a97e9942f6fcdb5/roundcube_01.png" alt="img"></p>
+<p><img src="/2019/03/28/./be066140513011e98a97e9942f6fcdb5/roundcube_02.png" alt="img"></p>
+<p><img src="/2019/03/28/./be066140513011e98a97e9942f6fcdb5/roundcube_03.png" alt="img"></p>
+<p><img src="/2019/03/28/./be066140513011e98a97e9942f6fcdb5/roundcube_04.png" alt="img"></p>
+<p><img src="/2019/03/28/./be066140513011e98a97e9942f6fcdb5/roundcube_05.png" alt="img"></p>
+<p><img src="/2019/03/28/./be066140513011e98a97e9942f6fcdb5/roundcube_06.png" alt="img"></p>
+<p><img src="/2019/03/28/./be066140513011e98a97e9942f6fcdb5/roundcube_07.png" alt="img"></p>
 <p>配置完成后，关闭浏览器页面。执行以下命令来使安装程序不可用。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod -R 000 /usr/share/roundcube/installer/</span><br></pre></td></tr></table></figure>
 <h3 id="登录测试"><a href="#登录测试" class="headerlink" title="登录测试"></a>登录测试</h3><p>打开浏览器，输入 <a href="http://link.zhihu.com/?target=https%3A//mail.example.com/" target="_blank" rel="noopener">https://mail.example.com</a> ，然后输入您的用户名密码登录，测试收发邮件</p>
