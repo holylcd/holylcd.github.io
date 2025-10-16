@@ -7,8 +7,11 @@
 
 <head>
   <meta charset="UTF-8">
+
   <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
   <link rel="icon" href="/img/fluid.png">
+  
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
@@ -60,7 +63,7 @@
 <!-- 主题依赖的图标库，不要自行修改 -->
 <!-- Do not modify the link that theme dependent icons -->
 
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
 
 
 
@@ -81,7 +84,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null},"woyaola":null,"cnzz":null},"search_path":"/local-search.xml","include_content_in_search":true};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -94,7 +97,7 @@
 
 
   
-<meta name="generator" content="Hexo 7.0.0"></head>
+<meta name="generator" content="Hexo 8.0.0"></head>
 
 
 <body>
@@ -232,7 +235,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          3.9k 字
+          3.8k 字
         
       </span>
     
@@ -243,7 +246,7 @@
         
         
         
-          33 分钟
+          32 分钟
         
       </span>
     
@@ -305,7 +308,7 @@
 
 <p>包的作用</p>
 <blockquote>
-<p>mysql-community-client（<em>客户端程序和工具）<br>mysql-community-server（</em>服务器程序和工具）<br>mysql-community-libs（<em>LIB库）<br>mysql-community-libs-compat（</em>LIB共享兼容库）<br>mysql-community-common（*公共文件）<br>mysql-community-devel（开发MySQL必备的头文件和库）<br>mysql-community-embedded（嵌入式库）<br>mysql-community-embedded-compat（嵌入式共享兼容库）<br>mysql-community-embedded-dev（嵌入式开发库）<br>mysql-community-test（测试套件）</p>
+<p>mysql-community-client（*客户端程序和工具）<br>mysql-community-server（*服务器程序和工具）<br>mysql-community-libs（*LIB库）<br>mysql-community-libs-compat（*LIB共享兼容库）<br>mysql-community-common（*公共文件）<br>mysql-community-devel（开发MySQL必备的头文件和库）<br>mysql-community-embedded（嵌入式库）<br>mysql-community-embedded-compat（嵌入式共享兼容库）<br>mysql-community-embedded-dev（嵌入式开发库）<br>mysql-community-test（测试套件）</p>
 </blockquote>
 <p>安装需要的包</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">yum install mysql-community-&#123;server,client,common,libs&#125;-*<br></code></pre></td></tr></table></figure>
@@ -455,12 +458,12 @@
 
 <p>若返回 1 ，则说明设置正确。</p>
 <p>测试用户名数据表的读取</p>
-<p>下面的 <a href="mailto:&#x75;&#x73;&#101;&#114;&#49;&#64;&#x65;&#x78;&#x61;&#109;&#x70;&#x6c;&#101;&#x2e;&#99;&#111;&#x6d;">&#x75;&#x73;&#101;&#114;&#49;&#64;&#x65;&#x78;&#x61;&#109;&#x70;&#x6c;&#101;&#x2e;&#99;&#111;&#x6d;</a> 请替换为自己设定的用户名其中一个。</p>
+<p>下面的 <a href="mailto:&#x75;&#x73;&#x65;&#x72;&#49;&#x40;&#101;&#x78;&#x61;&#x6d;&#x70;&#x6c;&#x65;&#x2e;&#x63;&#x6f;&#x6d;">user1@example.com</a> 请替换为自己设定的用户名其中一个。</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh">postmap -q user1@example.com mysql:/etc/postfix/mysql_mailbox_maps.cf<br><br></code></pre></td></tr></table></figure>
 
 <p>若返回 1 ，则说明设置正确。</p>
 <p>测试别名数据表的读取（可选）</p>
-<p>下面的 <a href="mailto:&#117;&#115;&#x65;&#x72;&#49;&#49;&#64;&#x65;&#x78;&#x61;&#x6d;&#x70;&#x6c;&#101;&#46;&#99;&#x6f;&#x6d;">&#117;&#115;&#x65;&#x72;&#49;&#49;&#64;&#x65;&#x78;&#x61;&#x6d;&#x70;&#x6c;&#101;&#46;&#99;&#x6f;&#x6d;</a> 请替换为自己设定的别名其中一个。</p>
+<p>下面的 <a href="mailto:&#117;&#115;&#x65;&#114;&#x31;&#x31;&#64;&#x65;&#120;&#97;&#x6d;&#x70;&#108;&#x65;&#x2e;&#99;&#111;&#109;">user11@example.com</a> 请替换为自己设定的别名其中一个。</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh">postmap -q user11@example.com mysql:/etc/postfix/mysql_alias_maps.cf<br><br></code></pre></td></tr></table></figure>
 
 <p>若返回别名所对应的真实用户名 ，则说明设置正确。</p>
@@ -806,7 +809,7 @@
               
                 <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
                   <span class="hint--top hint--rounded" aria-label="BY - 署名">
-                    <i class="iconfont icon-by"></i>
+                    <i class="iconfont icon-cc-by"></i>
                   </span>
                 </a>
               
@@ -963,7 +966,9 @@
       </span>
     
     
+
   
+
 </div>
 
   
@@ -978,7 +983,6 @@
   
 </div>
 
-  
   
 </div>
 
