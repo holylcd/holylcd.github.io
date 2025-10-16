@@ -1,0 +1,735 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Holy">
+  <meta name="keywords" content="Holy, Blog">
+  
+    <meta name="description" content="概述本文档记录了在一个基于 Quarkus 和 Kotlin 的项目中使用 Gradle Kotlin DSL 配置 **jOOQ 代码生成（Codegen）**的步骤和关键配置项。jOOQ 代码生成能够将数据库 Schema 转换为类型安全的 Kotlin&#x2F;Java 代码，极大地提升开发效率和代码质量。 1. 核心依赖和插件配置在 build.gradle.kts 文件中，需要引入 j">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用 Gradle Kotlin DSL 配置 jOOQ 代码生成（Quarkus &amp; Kotlin）">
+<meta property="og:url" content="http://example.com/2025/10/16/Gradle%20Kotlin%20%E9%85%8D%E7%BD%AE%20JOOQ%20%E4%BB%A3%E7%A0%81%E7%94%9F%E6%88%90/index.html">
+<meta property="og:site_name" content="Holy - Mozzie">
+<meta property="og:description" content="概述本文档记录了在一个基于 Quarkus 和 Kotlin 的项目中使用 Gradle Kotlin DSL 配置 **jOOQ 代码生成（Codegen）**的步骤和关键配置项。jOOQ 代码生成能够将数据库 Schema 转换为类型安全的 Kotlin&#x2F;Java 代码，极大地提升开发效率和代码质量。 1. 核心依赖和插件配置在 build.gradle.kts 文件中，需要引入 j">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-10-16T09:17:00.000Z">
+<meta property="article:modified_time" content="2025-10-16T09:40:07.323Z">
+<meta property="article:author" content="Holy">
+<meta property="article:tag" content="Gradle">
+<meta property="article:tag" content="JOOQ">
+<meta property="article:tag" content="Kotlin">
+<meta property="article:tag" content="Quarkus">
+<meta property="article:tag" content="codegen">
+<meta property="article:tag" content="代码生成">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>使用 Gradle Kotlin DSL 配置 jOOQ 代码生成（Quarkus &amp; Kotlin） - Holy - Mozzie</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null},"woyaola":null,"cnzz":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.0.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Holy</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="使用 Gradle Kotlin DSL 配置 jOOQ 代码生成（Quarkus &amp; Kotlin）"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-10-16 17:17" pubdate>
+          2025年10月16日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          826 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          7 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">使用 Gradle Kotlin DSL 配置 jOOQ 代码生成（Quarkus &amp; Kotlin）</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>本文档记录了在一个基于 <strong>Quarkus</strong> 和 <strong>Kotlin</strong> 的项目中使用 <strong>Gradle Kotlin DSL</strong> 配置 **jOOQ 代码生成（Codegen）**的步骤和关键配置项。jOOQ 代码生成能够将数据库 Schema 转换为类型安全的 Kotlin&#x2F;Java 代码，极大地提升开发效率和代码质量。</p>
+<h2 id="1-核心依赖和插件配置"><a href="#1-核心依赖和插件配置" class="headerlink" title="1. 核心依赖和插件配置"></a>1. 核心依赖和插件配置</h2><p>在 <code>build.gradle.kts</code> 文件中，需要引入 jOOQ Gradle 插件、Quarkus 依赖以及 jOOQ Codegen 所需的 JDBC 驱动。</p>
+<h3 id="1-1-插件"><a href="#1-1-插件" class="headerlink" title="1.1 插件"></a>1.1 插件</h3><p>Kotlin</p>
+<figure class="highlight fsharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs fsharp"><span class="hljs-keyword">plugins</span> &#123;<br>    kotlin(<span class="hljs-string">&quot;jvm&quot;</span>) version <span class="hljs-string">&quot;2.2.20&quot;</span><br>    <span class="hljs-built_in">id</span>(<span class="hljs-string">&quot;io.quarkus&quot;</span>)<br><br>    <span class="hljs-comment">// jOOQ Codegen Gradle 插件。gradlePluginPortal() 查不到，可能发布到 mavenCentral()</span><br>    <span class="hljs-built_in">id</span>(<span class="hljs-string">&quot;org.jooq.jooq-codegen-gradle&quot;</span>) version <span class="hljs-string">&quot;3.19.23&quot;</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="1-2-依赖配置"><a href="#1-2-依赖配置" class="headerlink" title="1.2 依赖配置"></a>1.2 依赖配置</h3><p><strong>关键点：</strong> jOOQ 代码生成所需的依赖（<code>jooq-codegen</code> 和 JDBC 驱动）需要添加到 <code>jooqCodegen</code> 配置中，而不是常规的 <code>implementation</code>。</p>
+<p>Kotlin</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs scss">dependencies &#123;<br>    <span class="hljs-comment">// ... Quarkus 运行依赖，生成可不添加 ...</span><br>    <span class="hljs-built_in">implementation</span>(&quot;io.quarkus:quarkus-jdbc-mysql&quot;)<br>    <span class="hljs-built_in">implementation</span>(&quot;io.quarkiverse.jooq:quarkus-jooq:<span class="hljs-number">2.1</span>.<span class="hljs-number">0</span>&quot;) <span class="hljs-comment">// Quarkus jOOQ 集成</span><br><br>    <span class="hljs-comment">// ----------------------------------------------------</span><br>    <span class="hljs-comment">// jOOQ 代码生成 (Codegen) 依赖</span><br>    <span class="hljs-comment">// ----------------------------------------------------</span><br>    <span class="hljs-built_in">jooqCodegen</span>(&quot;org.jooq:jooq-codegen:<span class="hljs-number">3.19</span>.<span class="hljs-number">23</span>&quot;)<br>    <span class="hljs-built_in">jooqCodegen</span>(&quot;org.jooq:jooq-meta:<span class="hljs-number">3.19</span>.<span class="hljs-number">23</span>&quot;)<br>    <span class="hljs-comment">// **关键：用于代码生成的 MySQL JDBC 驱动**</span><br>    <span class="hljs-built_in">jooqCodegen</span>(&quot;com.mysql:mysql-connector-j:<span class="hljs-number">8.3</span>.<span class="hljs-number">0</span>&quot;)<br>    <span class="hljs-comment">// ... 其他依赖 ...</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="2-jOOQ-代码生成配置-jooq-块"><a href="#2-jOOQ-代码生成配置-jooq-块" class="headerlink" title="2. jOOQ 代码生成配置 (jooq 块)"></a>2. jOOQ 代码生成配置 (<code>jooq</code> 块)</h2><p>使用 <code>jooq</code> 块来定义代码生成器的详细配置。默认情况下，插件会创建一个名为 <code>jooqCodegenMain</code> 的任务。</p>
+<p>Kotlin</p>
+<figure class="highlight fsharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><code class="hljs fsharp"><span class="hljs-keyword">jooq</span> &#123;<br>    <span class="hljs-keyword">configuration</span> &#123;<br>        <span class="hljs-comment">// 2.1. JDBC 连接配置</span><br>        <span class="hljs-keyword">jdbc</span> &#123;<br>            driver <span class="hljs-operator">=</span> <span class="hljs-string">&quot;com.mysql.cj.jdbc.Driver&quot;</span><br>            <span class="hljs-comment">// 注意：完整的连接 URL，包含必要的时区和编码参数</span><br>            url <span class="hljs-operator">=</span> <span class="hljs-string">&quot;jdbc:mysql://localhost:4407/dev-xxx?useUnicode=true&amp;characterEncoding=UTF-8&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=Asia/Shanghai&amp;useSSL=false&amp;allowPublicKeyRetrieval=true&quot;</span><br>            user <span class="hljs-operator">=</span> <span class="hljs-string">&quot;root&quot;</span><br>            password <span class="hljs-operator">=</span> <span class="hljs-string">&quot;123456&quot;</span><br>        &#125;<br><br>        <span class="hljs-comment">// 2.2. 代码生成器配置</span><br>        <span class="hljs-keyword">generator</span> &#123;<br>            <span class="hljs-comment">// **关键：使用 KotlinGenerator 来生成 Kotlin 代码**</span><br>            name <span class="hljs-operator">=</span> <span class="hljs-string">&quot;org.jooq.codegen.KotlinGenerator&quot;</span><br><br>            <span class="hljs-keyword">database</span> &#123;<br>                name <span class="hljs-operator">=</span> <span class="hljs-string">&quot;org.jooq.meta.mysql.MySQLDatabase&quot;</span><br>                <span class="hljs-comment">// 要生成代码的模式 (Schema)。MYSQL 为数据库名称</span><br>                inputSchema <span class="hljs-operator">=</span> <span class="hljs-string">&quot;dev-xxx&quot;</span><br>                includes <span class="hljs-operator">=</span> <span class="hljs-string">&quot;.*&quot;</span><br>                excludes <span class="hljs-operator">=</span> <span class="hljs-string">&quot;flyway_schema_history&quot;</span> <span class="hljs-comment">// 排除特定表</span><br>            &#125;<br><br>            <span class="hljs-comment">// 2.3. 生成内容配置 (Generate)（选配）</span><br>            <span class="hljs-keyword">generate</span> &#123;<br>                <span class="hljs-comment">// 启用生成 Kotlin 数据类作为 POJO</span><br>                isPojos <span class="hljs-operator">=</span> <span class="hljs-literal">true</span><br>                isPojosAsKotlinDataClasses <span class="hljs-operator">=</span> <span class="hljs-literal">true</span> <br><br>                <span class="hljs-comment">// 生成 DAO 类 (Data Access Objects)</span><br>                isDaos <span class="hljs-operator">=</span> <span class="hljs-literal">true</span><br>                isSpringDao <span class="hljs-operator">=</span> <span class="hljs-literal">true</span> <span class="hljs-comment">// 启用 Spring/Quarkus 兼容的 DAO</span><br><br>                <span class="hljs-comment">// 生成 jOOQ Record 类</span><br>                isRecords <span class="hljs-operator">=</span> <span class="hljs-literal">true</span><br><br>                <span class="hljs-comment">// 添加注解，如 @Generated, @NotNull</span><br>                isGeneratedAnnotation <span class="hljs-operator">=</span> <span class="hljs-literal">true</span><br>                isNullableAnnotation <span class="hljs-operator">=</span> <span class="hljs-literal">true</span> <br>            &#125;<br><br>            <span class="hljs-comment">// 2.4. 目标配置 (Target)</span><br>            <span class="hljs-keyword">target</span> &#123;<br>                packageName <span class="hljs-operator">=</span> <span class="hljs-string">&quot;com.example.jooq.generated&quot;</span><br>                directory <span class="hljs-operator">=</span> <span class="hljs-string">&quot;build/generated-src/jooq/main&quot;</span> <span class="hljs-comment">// 代码输出目录</span><br>            &#125;<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="3-源码集和任务依赖配置"><a href="#3-源码集和任务依赖配置" class="headerlink" title="3. 源码集和任务依赖配置"></a>3. 源码集和任务依赖配置</h2><p>生成的代码必须被 Gradle 识别并加入到编译路径中。同时，要确保代码生成任务在编译之前运行。</p>
+<h3 id="3-1-添加源码目录"><a href="#3-1-添加源码目录" class="headerlink" title="3.1 添加源码目录"></a>3.1 添加源码目录</h3><p>将 jOOQ 生成的目录添加到 <code>main</code> 源码集的 Kotlin 路径。</p>
+<p>Kotlin</p>
+<figure class="highlight fsharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs fsharp"><span class="hljs-keyword">sourceSets</span> &#123;<br>    <span class="hljs-keyword">main</span> &#123;<br>        <span class="hljs-keyword">kotlin</span> &#123;<br>            <span class="hljs-comment">// 将生成的代码输出目录添加到 Source Set</span><br>            srcDir(<span class="hljs-string">&quot;build/generated-src/jooq/main&quot;</span>)<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="3-2-任务依赖"><a href="#3-2-任务依赖" class="headerlink" title="3.2 任务依赖"></a>3.2 任务依赖</h3><p>确保在 Kotlin 编译 (<code>KotlinCompile</code>) 和 Quarkus 构建 (<code>quarkusBuild</code>) 之前，强制运行 jOOQ 代码生成任务（默认任务名为 <code>jooqCodegen</code> 或 <code>jooqCodegenMain</code>）。</p>
+<p>Kotlin</p>
+<figure class="highlight isbl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs isbl"><span class="hljs-variable"><span class="hljs-class">tasks</span>.withType</span>&lt;<span class="hljs-variable">KotlinCompile</span>&gt;().configureEach &#123;<br>    <span class="hljs-comment">// 确保编译前 jOOQ 代码已生成</span><br>    <span class="hljs-function"><span class="hljs-title">dependsOn</span>(<span class="hljs-variable"><span class="hljs-class">tasks</span>.named</span>(<span class="hljs-string">&quot;jooqCodegen&quot;</span>))</span><br>&#125;<br><br><span class="hljs-variable"><span class="hljs-class">tasks</span>.named</span>(<span class="hljs-string">&quot;quarkusBuild&quot;</span>) &#123;<br>    <span class="hljs-comment">// 确保构建前 jOOQ 代码已生成</span><br>    <span class="hljs-function"><span class="hljs-title">dependsOn</span>(<span class="hljs-variable"><span class="hljs-class">tasks</span>.named</span>(<span class="hljs-string">&quot;jooqCodegen&quot;</span>))</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="4-运行代码生成"><a href="#4-运行代码生成" class="headerlink" title="4. 运行代码生成"></a>4. 运行代码生成</h2><p>配置完成后，您可以通过运行 Gradle 任务来执行代码生成：</p>
+<p>Bash</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">./gradlew jooqCodegen<br><span class="hljs-comment"># 或</span><br>./gradlew jooqCodegenMain<br></code></pre></td></tr></table></figure>
+
+<p>执行成功后，生成的 Kotlin 代码（包括 Records, POJOs, DAOs, Tables 等）将位于 <code>build/generated-src/jooq/main</code> 目录下。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="https://www.jooq.org/doc/latest/manual/code-generation/codegen-execution/codegen-gradle/">JOOQ - Running the code generator with Gradle</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/JOOQ/" class="category-chain-item">JOOQ</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Gradle/" class="print-no-link">#Gradle</a>
+      
+        <a href="/tags/Kotlin/" class="print-no-link">#Kotlin</a>
+      
+        <a href="/tags/Quarkus/" class="print-no-link">#Quarkus</a>
+      
+        <a href="/tags/JOOQ/" class="print-no-link">#JOOQ</a>
+      
+        <a href="/tags/%E4%BB%A3%E7%A0%81%E7%94%9F%E6%88%90/" class="print-no-link">#代码生成</a>
+      
+        <a href="/tags/codegen/" class="print-no-link">#codegen</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>使用 Gradle Kotlin DSL 配置 jOOQ 代码生成（Quarkus &amp; Kotlin）</div>
+      <div>http://example.com/2025/10/16/Gradle Kotlin 配置 JOOQ 代码生成/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Holy</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年10月16日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/10/03/Docker-%E5%AE%89%E8%A3%85-Redis/" title="Docker 安装 Redis">
+                        <span class="hidden-mobile">Docker 安装 Redis</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      粤ICP备18053694号
+    </a>
+  </span>
+  
+</div>
+
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
