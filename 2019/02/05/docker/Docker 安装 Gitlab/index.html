@@ -19,26 +19,25 @@
   <meta name="author" content="Holy">
   <meta name="keywords" content="Holy, Blog">
   
-    <meta name="description" content="Nacos 是阿里的一个开源中间件，用于服务的注册以及发现，配置和服务管理。">
+    <meta name="description" content="GitLab 是由GitLab Inc.开发，使用MIT许可证的基于网络的Git仓库管理工具，且具有wiki和issue跟踪功能。常用于企业内部代码管理。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Docker 安装 Nacos">
-<meta property="og:url" content="http://example.com/2019/09/18/Docker-%E5%AE%89%E8%A3%85-Nacos/index.html">
+<meta property="og:title" content="Docker 安装 GitLab 教程">
+<meta property="og:url" content="http://example.com/2019/02/05/docker/Docker%20%E5%AE%89%E8%A3%85%20Gitlab/index.html">
 <meta property="og:site_name" content="Mozzie🤔🎉🚀✨⭐🌟💫">
-<meta property="og:description" content="Nacos 是阿里的一个开源中间件，用于服务的注册以及发现，配置和服务管理。">
+<meta property="og:description" content="GitLab 是由GitLab Inc.开发，使用MIT许可证的基于网络的Git仓库管理工具，且具有wiki和issue跟踪功能。常用于企业内部代码管理。">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2019-09-17T16:39:31.000Z">
+<meta property="article:published_time" content="2019-02-05T03:43:51.000Z">
 <meta property="article:modified_time" content="2022-03-28T01:47:53.000Z">
 <meta property="article:author" content="Holy">
-<meta property="article:tag" content="Nacos">
-<meta property="article:tag" content="Spring Cloud">
-<meta property="article:tag" content="Spring Cloud Alibaba">
+<meta property="article:tag" content="Git">
+<meta property="article:tag" content="GitLab">
 <meta name="twitter:card" content="summary_large_image">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>Docker 安装 Nacos - Mozzie🤔🎉🚀✨⭐🌟💫</title>
+  <title>Docker 安装 GitLab 教程 - Mozzie🤔🎉🚀✨⭐🌟💫</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -204,7 +203,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Docker 安装 Nacos"></span>
+            <span id="subtitle" data-typed-text="Docker 安装 GitLab 教程"></span>
           
         </div>
 
@@ -215,8 +214,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2019-09-18 00:39" pubdate>
-          2019年9月18日 凌晨
+        <time datetime="2019-02-05 11:43" pubdate>
+          2019年2月5日 中午
         </time>
       </span>
     
@@ -227,7 +226,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          100 字
+          261 字
         
       </span>
     
@@ -238,7 +237,7 @@
         
         
         
-          1 分钟
+          3 分钟
         
       </span>
     
@@ -275,41 +274,60 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">Docker 安装 Nacos</h1>
+            <h1 id="seo-header">Docker 安装 GitLab 教程</h1>
             
             
               <div class="markdown-body">
                 
-                <p><a target="_blank" rel="noopener" href="https://nacos.io/zh-cn/">Nacos</a> 是阿里的一个开源中间件，用于服务的注册以及发现，配置和服务管理。</p>
+                <p><a href="about.gitlab.com">GitLab</a> 是由GitLab Inc.开发，使用<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/MIT%E8%A8%B1%E5%8F%AF%E8%AD%89">MIT许可证</a>的基于<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E4%BA%92%E8%81%94%E7%BD%91">网络</a>的<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/Git">Git</a><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E4%BB%93%E5%BA%93_(%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6)">仓库</a>管理工具，且具有<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/Wiki">wiki</a>和<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E4%BA%8B%E5%8A%A1%E8%B7%9F%E8%B8%AA%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F">issue跟踪</a>功能。常用于企业内部代码管理。</p>
 <span id="more"></span>
 
-<h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><p>CentOS release 7.4.1708</p>
-<p>Docker 19.03.1</p>
-<p>Docker Compose 1.24.1</p>
-<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><ol>
-<li><p>安装<code>Git</code></p>
-<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cmake">yum <span class="hljs-keyword">install</span> git -y<br></code></pre></td></tr></table></figure>
-</li>
-<li><p>安装 <code>Docker</code>，<a target="_blank" rel="noopener" href="https://docs.docker.com/install/linux/docker-ce/centos/">官网</a>，<a target="_blank" rel="noopener" href="https://holylcd.gitee.io/2019/01/30/5fd50d278d504636b6d32603d5018429.html">个人教程</a></p>
-</li>
-<li><p>克隆项目</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">git <span class="hljs-built_in">clone</span> --depth 1 https://github.com/nacos-group/nacos-docker.git<br></code></pre></td></tr></table></figure>
-</li>
-<li><p>Standalone Derby</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">docker-compose -f example/standalone-derby.yaml up<br></code></pre></td></tr></table></figure>
-</li>
-<li><p>Standalone Mysql</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">docker-compose -f example/standalone-mysql.yaml up<br></code></pre></td></tr></table></figure>
-</li>
-<li><p>Cluster</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">docker-compose -f example/cluster-hostname.yaml up <br></code></pre></td></tr></table></figure>
-</li>
-<li><p>查询服务状态</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">docker ps -a<br></code></pre></td></tr></table></figure></li>
-</ol>
-<h1 id="防火墙"><a href="#防火墙" class="headerlink" title="防火墙"></a>防火墙</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">firewall-cmd --zone=public --add-port=8848/tcp --permanent<br></code></pre></td></tr></table></figure>
+<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>操作系统：Centos7</p>
+<p>SeLinux：开启</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>启动容器</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs sh">docker run --detach \<br>  --publish 2443:443 --publish 2280:80 --publish 2222:22 \<br>  --name gitlab \<br>  --hostname 10.10.18.155 \<br>  --restart unless-stopped \<br>  --volume /program/gitlab/config:/etc/gitlab:Z \<br>  --volume /program/gitlab/logs:/var/log/gitlab:Z \<br>  --volume /program/gitlab/data:/var/opt/gitlab:Z \<br>  gitlab/gitlab-ce:latest<br></code></pre></td></tr></table></figure>
 
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a target="_blank" rel="noopener" href="https://hub.docker.com/r/nacos/nacos-server">Nacos</a></p>
+<h2 id="备份"><a href="#备份" class="headerlink" title="备份"></a>备份</h2><p>查看 <code>GitLab</code> 版本号</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">docker <span class="hljs-built_in">exec</span> -it gitlab <span class="hljs-built_in">cat</span> /opt/gitlab/embedded/service/gitlab-rails/VERSION<br></code></pre></td></tr></table></figure>
+
+<p><strong>1. Docker volume  方式</strong></p>
+<p>注意：该方法移动文件时，一定要保持原文件权限！！！</p>
+<p>复制 volume</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">cp</span> -rfp /program/gitlab /program/gitlab.bak<br></code></pre></td></tr></table></figure>
+
+<p>压缩&#x2F;打包 volume</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">tar -czvp -f /program/gitlab.tar.gz /program/gitlab.bak<br></code></pre></td></tr></table></figure>
+
+<p>解压&#x2F;解包 volume</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">tar -xzvp -f /program/gitlab.tar.gz<br></code></pre></td></tr></table></figure>
+
+<p><strong>2. GitLab备份方式</strong></p>
+<p>备份数据</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">docker <span class="hljs-built_in">exec</span> gitlab gitlab-rake gitlab:backup:create<br></code></pre></td></tr></table></figure>
+
+<p>拷贝到物理机</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">docker <span class="hljs-built_in">cp</span> gitlab:/xxx /program/<br></code></pre></td></tr></table></figure>
+
+<p>还原</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">docker <span class="hljs-built_in">exec</span> -it &lt;name of container&gt; gitlab-rake gitlab:backup:restore<br></code></pre></td></tr></table></figure>
+
+<h2 id="修复克隆地址"><a href="#修复克隆地址" class="headerlink" title="修复克隆地址"></a>修复克隆地址</h2><p>修改配置文件</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">vim</span> gitlab.rb<br></code></pre></td></tr></table></figure>
+
+<p>修改正确的IP&#x2F;地址</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">external_url</span> <span class="hljs-string">&#x27;http://git.taigu.org&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><ol>
+<li><p>权限问题</p>
+<p>执行修复指令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo docker <span class="hljs-built_in">exec</span> -it gitlab update-permissions<br></code></pre></td></tr></table></figure>
+</li>
+<li><p><code>gitaly.pid</code>错误</p>
+<p>删除 <code>gitlab/data/gitaly/gitaly.pid</code></p>
+</li>
+</ol>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="https://docs.gitlab.com/omnibus/docker/">docker install gitlab</a></p>
+<p><a target="_blank" rel="noopener" href="https://docs.gitlab.com/ce/raketasks/backup_restore.html#restore-for-omnibus-installations">docker gitlab backup</a></p>
 
                 
               </div>
@@ -328,7 +346,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/Nacos/" class="category-chain-item">Nacos</a>
+  <a href="/categories/Git/" class="category-chain-item">Git</a>
   
   
 
@@ -343,11 +361,9 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/Spring-Cloud-Alibaba/" class="print-no-link">#Spring Cloud Alibaba</a>
+        <a href="/tags/GitLab/" class="print-no-link">#GitLab</a>
       
-        <a href="/tags/Nacos/" class="print-no-link">#Nacos</a>
-      
-        <a href="/tags/Spring-Cloud/" class="print-no-link">#Spring Cloud</a>
+        <a href="/tags/Git/" class="print-no-link">#Git</a>
       
     </div>
   
@@ -359,8 +375,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Docker 安装 Nacos</div>
-      <div>http://example.com/2019/09/18/Docker-安装-Nacos/</div>
+      <div>Docker 安装 GitLab 教程</div>
+      <div>http://example.com/2019/02/05/docker/Docker 安装 Gitlab/</div>
     </div>
     <div class="license-meta">
       
@@ -372,7 +388,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2019年9月18日</div>
+          <div>2019年2月5日</div>
         </div>
       
       
@@ -404,9 +420,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2019/10/03/Docker-%E5%AE%89%E8%A3%85-Redis/" title="Docker 安装 Redis">
+                      <a href="/2019/03/22/%E8%87%AA%E5%BB%BA%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8-%E5%BC%80%E6%BA%90%E9%9B%86%E6%88%90%E6%96%B9%E6%A1%88iRedMail/" title="自建邮件服务器-开源集成方案iRedMail">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Docker 安装 Redis</span>
+                        <span class="hidden-mobile">自建邮件服务器-开源集成方案iRedMail</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -414,8 +430,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2019/09/17/%E4%BF%AE%E6%94%B9SSH%E7%AB%AF%E5%8F%A3-%E7%A6%81%E7%94%A8root%E7%99%BB%E5%BD%95/" title="修改SSH端口 禁用root登录">
-                        <span class="hidden-mobile">修改SSH端口 禁用root登录</span>
+                      <a href="/2019/01/30/docker/docker%20%E5%AE%89%E8%A3%85/" title="Docker 安装教程">
+                        <span class="hidden-mobile">Docker 安装教程</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

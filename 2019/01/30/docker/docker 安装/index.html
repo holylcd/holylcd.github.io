@@ -19,25 +19,25 @@
   <meta name="author" content="Holy">
   <meta name="keywords" content="Holy, Blog">
   
-    <meta name="description" content="GitLab 是由GitLab Inc.开发，使用MIT许可证的基于网络的Git仓库管理工具，且具有wiki和issue跟踪功能。常用于企业内部代码管理。">
+    <meta name="description" content="Docker 是常用的软件容器平台，可快速创建、部署服务，提高生产效率。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Docker 安装 GitLab 教程">
-<meta property="og:url" content="http://example.com/2019/02/05/Docker%20%E5%AE%89%E8%A3%85%20Gitlab/index.html">
+<meta property="og:title" content="Docker 安装教程">
+<meta property="og:url" content="http://example.com/2019/01/30/docker/docker%20%E5%AE%89%E8%A3%85/index.html">
 <meta property="og:site_name" content="Mozzie🤔🎉🚀✨⭐🌟💫">
-<meta property="og:description" content="GitLab 是由GitLab Inc.开发，使用MIT许可证的基于网络的Git仓库管理工具，且具有wiki和issue跟踪功能。常用于企业内部代码管理。">
+<meta property="og:description" content="Docker 是常用的软件容器平台，可快速创建、部署服务，提高生产效率。">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2019-02-05T03:43:51.000Z">
+<meta property="article:published_time" content="2019-01-30T02:12:56.000Z">
 <meta property="article:modified_time" content="2022-03-28T01:47:53.000Z">
 <meta property="article:author" content="Holy">
-<meta property="article:tag" content="Git">
-<meta property="article:tag" content="GitLab">
+<meta property="article:tag" content="Docker">
+<meta property="article:tag" content="微服务">
 <meta name="twitter:card" content="summary_large_image">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>Docker 安装 GitLab 教程 - Mozzie🤔🎉🚀✨⭐🌟💫</title>
+  <title>Docker 安装教程 - Mozzie🤔🎉🚀✨⭐🌟💫</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -203,7 +203,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Docker 安装 GitLab 教程"></span>
+            <span id="subtitle" data-typed-text="Docker 安装教程"></span>
           
         </div>
 
@@ -214,8 +214,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2019-02-05 11:43" pubdate>
-          2019年2月5日 中午
+        <time datetime="2019-01-30 10:12" pubdate>
+          2019年1月30日 上午
         </time>
       </span>
     
@@ -226,7 +226,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          261 字
+          244 字
         
       </span>
     
@@ -274,60 +274,64 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">Docker 安装 GitLab 教程</h1>
+            <h1 id="seo-header">Docker 安装教程</h1>
             
             
               <div class="markdown-body">
                 
-                <p><a href="about.gitlab.com">GitLab</a> 是由GitLab Inc.开发，使用<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/MIT%E8%A8%B1%E5%8F%AF%E8%AD%89">MIT许可证</a>的基于<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E4%BA%92%E8%81%94%E7%BD%91">网络</a>的<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/Git">Git</a><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E4%BB%93%E5%BA%93_(%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6)">仓库</a>管理工具，且具有<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/Wiki">wiki</a>和<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E4%BA%8B%E5%8A%A1%E8%B7%9F%E8%B8%AA%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F">issue跟踪</a>功能。常用于企业内部代码管理。</p>
+                <p><a href="www.docker.com">Docker</a> 是常用的软件容器平台，可快速创建、部署服务，提高生产效率。</p>
 <span id="more"></span>
 
 <h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>操作系统：Centos7</p>
 <p>SeLinux：开启</p>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>启动容器</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs sh">docker run --detach \<br>  --publish 2443:443 --publish 2280:80 --publish 2222:22 \<br>  --name gitlab \<br>  --hostname 10.10.18.155 \<br>  --restart unless-stopped \<br>  --volume /program/gitlab/config:/etc/gitlab:Z \<br>  --volume /program/gitlab/logs:/var/log/gitlab:Z \<br>  --volume /program/gitlab/data:/var/opt/gitlab:Z \<br>  gitlab/gitlab-ce:latest<br></code></pre></td></tr></table></figure>
+<h2 id="存储库安装"><a href="#存储库安装" class="headerlink" title="存储库安装"></a>存储库安装</h2><p><strong>卸载旧</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo yum remove \<br>  docker \<br>  docker-client \<br>  docker-client-latest \<br>  docker-common \<br>  docker-latest \<br>  docker-latest-logrotate \<br>  docker-logrotate \<br>  docker-engine<br></code></pre></td></tr></table></figure>
 
-<h2 id="备份"><a href="#备份" class="headerlink" title="备份"></a>备份</h2><p>查看 <code>GitLab</code> 版本号</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">docker <span class="hljs-built_in">exec</span> -it gitlab <span class="hljs-built_in">cat</span> /opt/gitlab/embedded/service/gitlab-rails/VERSION<br></code></pre></td></tr></table></figure>
+<p><strong>安装需要的包</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo yum install -y \<br>  yum-utils \<br>  device-mapper-persistent-data \<br>  lvm2<br></code></pre></td></tr></table></figure>
 
-<p><strong>1. Docker volume  方式</strong></p>
-<p>注意：该方法移动文件时，一定要保持原文件权限！！！</p>
-<p>复制 volume</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">cp</span> -rfp /program/gitlab /program/gitlab.bak<br></code></pre></td></tr></table></figure>
+<p><strong>设置稳定存储库</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo yum-config-manager \<br>  --add-repo \<br>  https://download.docker.com/linux/centos/docker-ce.repo<br></code></pre></td></tr></table></figure>
 
-<p>压缩&#x2F;打包 volume</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">tar -czvp -f /program/gitlab.tar.gz /program/gitlab.bak<br></code></pre></td></tr></table></figure>
+<p><strong>安装新 Docker</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo yum install docker-ce docker-ce-cli containerd.io<br></code></pre></td></tr></table></figure>
 
-<p>解压&#x2F;解包 volume</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">tar -xzvp -f /program/gitlab.tar.gz<br></code></pre></td></tr></table></figure>
+<p><strong>国内加速</strong></p>
+<p>阿里云搜索 <code>容器镜像加速</code>，进入，找到 <code>镜像加速器</code>，选择相应的操作系统，执行相关指令</p>
+<p>例如：Centos7</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo <span class="hljs-built_in">mkdir</span> -p /etc/docker<br></code></pre></td></tr></table></figure>
 
-<p><strong>2. GitLab备份方式</strong></p>
-<p>备份数据</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">docker <span class="hljs-built_in">exec</span> gitlab gitlab-rake gitlab:backup:create<br></code></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">vim <span class="hljs-built_in">tee</span> /etc/docker/daemon.json<br></code></pre></td></tr></table></figure>
 
-<p>拷贝到物理机</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">docker <span class="hljs-built_in">cp</span> gitlab:/xxx /program/<br></code></pre></td></tr></table></figure>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;registry-mirrors&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;https://xxxxxx.mirror.aliyuncs.com&quot;</span><span class="hljs-punctuation">]</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
 
-<p>还原</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">docker <span class="hljs-built_in">exec</span> -it &lt;name of container&gt; gitlab-rake gitlab:backup:restore<br></code></pre></td></tr></table></figure>
+<p>如果已经启动 docker，需要重启服务生效</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo systemctl daemon-reload<br>sudo systemctl restart docker<br></code></pre></td></tr></table></figure>
 
-<h2 id="修复克隆地址"><a href="#修复克隆地址" class="headerlink" title="修复克隆地址"></a>修复克隆地址</h2><p>修改配置文件</p>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">vim</span> gitlab.rb<br></code></pre></td></tr></table></figure>
+<p><strong>选择大容量分区</strong></p>
+<p>查看分区空间使用情况</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">df</span> -h<br></code></pre></td></tr></table></figure>
 
-<p>修改正确的IP&#x2F;地址</p>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">external_url</span> <span class="hljs-string">&#x27;http://git.taigu.org&#x27;</span><br></code></pre></td></tr></table></figure>
+<p>设置 docker 根目录</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">vim /etc/docker/daemon.json<br></code></pre></td></tr></table></figure>
 
-<h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><ol>
-<li><p>权限问题</p>
-<p>执行修复指令</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo docker <span class="hljs-built_in">exec</span> -it gitlab update-permissions<br></code></pre></td></tr></table></figure>
-</li>
-<li><p><code>gitaly.pid</code>错误</p>
-<p>删除 <code>gitlab/data/gitaly/gitaly.pid</code></p>
-</li>
-</ol>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="https://docs.gitlab.com/omnibus/docker/">docker install gitlab</a></p>
-<p><a target="_blank" rel="noopener" href="https://docs.gitlab.com/ce/raketasks/backup_restore.html#restore-for-omnibus-installations">docker gitlab backup</a></p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;graph&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;/home/docker&quot;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+
+
+
+<p>如果已经启动 docker，需要重启服务生效</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo systemctl daemon-reload<br>sudo systemctl restart docker<br></code></pre></td></tr></table></figure>
+
+<p><strong>启动</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo systemctl start docker<br></code></pre></td></tr></table></figure>
+
+<p><strong>自启</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo systemctl <span class="hljs-built_in">enable</span> docker<br></code></pre></td></tr></table></figure>
+
+<p><strong>关闭自启</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo systemctl <span class="hljs-built_in">disable</span> docker<br></code></pre></td></tr></table></figure>
+
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="https://docs.docker.com/install/linux/docker-ce/centos/">docker</a></p>
 
                 
               </div>
@@ -346,7 +350,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/Git/" class="category-chain-item">Git</a>
+  <a href="/categories/Docker/" class="category-chain-item">Docker</a>
   
   
 
@@ -361,9 +365,9 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/GitLab/" class="print-no-link">#GitLab</a>
+        <a href="/tags/Docker/" class="print-no-link">#Docker</a>
       
-        <a href="/tags/Git/" class="print-no-link">#Git</a>
+        <a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" class="print-no-link">#微服务</a>
       
     </div>
   
@@ -375,8 +379,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Docker 安装 GitLab 教程</div>
-      <div>http://example.com/2019/02/05/Docker 安装 Gitlab/</div>
+      <div>Docker 安装教程</div>
+      <div>http://example.com/2019/01/30/docker/docker 安装/</div>
     </div>
     <div class="license-meta">
       
@@ -388,7 +392,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2019年2月5日</div>
+          <div>2019年1月30日</div>
         </div>
       
       
@@ -420,9 +424,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2019/03/22/%E8%87%AA%E5%BB%BA%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8-%E5%BC%80%E6%BA%90%E9%9B%86%E6%88%90%E6%96%B9%E6%A1%88iRedMail/" title="自建邮件服务器-开源集成方案iRedMail">
+                      <a href="/2019/02/05/docker/Docker%20%E5%AE%89%E8%A3%85%20Gitlab/" title="Docker 安装 GitLab 教程">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">自建邮件服务器-开源集成方案iRedMail</span>
+                        <span class="hidden-mobile">Docker 安装 GitLab 教程</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -430,8 +434,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2019/01/30/docker%20%E5%AE%89%E8%A3%85/" title="Docker 安装教程">
-                        <span class="hidden-mobile">Docker 安装教程</span>
+                      <a href="/2019/01/29/hexo-%E5%BF%AB%E9%80%9F%E5%BC%80%E5%A7%8B/" title="hexo 快速开始">
+                        <span class="hidden-mobile">hexo 快速开始</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

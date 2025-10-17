@@ -19,24 +19,26 @@
   <meta name="author" content="Holy">
   <meta name="keywords" content="Holy, Blog">
   
-    <meta name="description" content="Linux 新机修改 SSH 端口，禁用 root 登录">
+    <meta name="description" content="Nacos 是阿里的一个开源中间件，用于服务的注册以及发现，配置和服务管理。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="修改SSH端口 禁用root登录">
-<meta property="og:url" content="http://example.com/2019/09/17/%E4%BF%AE%E6%94%B9SSH%E7%AB%AF%E5%8F%A3-%E7%A6%81%E7%94%A8root%E7%99%BB%E5%BD%95/index.html">
+<meta property="og:title" content="Docker 安装 Nacos">
+<meta property="og:url" content="http://example.com/2019/09/18/docker/Docker-%E5%AE%89%E8%A3%85-Nacos/index.html">
 <meta property="og:site_name" content="Mozzie🤔🎉🚀✨⭐🌟💫">
-<meta property="og:description" content="Linux 新机修改 SSH 端口，禁用 root 登录">
+<meta property="og:description" content="Nacos 是阿里的一个开源中间件，用于服务的注册以及发现，配置和服务管理。">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2019-09-17T14:30:16.000Z">
+<meta property="article:published_time" content="2019-09-17T16:39:31.000Z">
 <meta property="article:modified_time" content="2022-03-28T01:47:53.000Z">
 <meta property="article:author" content="Holy">
-<meta property="article:tag" content="CentOS">
+<meta property="article:tag" content="Nacos">
+<meta property="article:tag" content="Spring Cloud">
+<meta property="article:tag" content="Spring Cloud Alibaba">
 <meta name="twitter:card" content="summary_large_image">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>修改SSH端口 禁用root登录 - Mozzie🤔🎉🚀✨⭐🌟💫</title>
+  <title>Docker 安装 Nacos - Mozzie🤔🎉🚀✨⭐🌟💫</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -202,7 +204,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="修改SSH端口 禁用root登录"></span>
+            <span id="subtitle" data-typed-text="Docker 安装 Nacos"></span>
           
         </div>
 
@@ -213,8 +215,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2019-09-17 22:30" pubdate>
-          2019年9月17日 晚上
+        <time datetime="2019-09-18 00:39" pubdate>
+          2019年9月18日 凌晨
         </time>
       </span>
     
@@ -225,7 +227,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          253 字
+          100 字
         
       </span>
     
@@ -236,7 +238,7 @@
         
         
         
-          3 分钟
+          1 分钟
         
       </span>
     
@@ -273,57 +275,41 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">修改SSH端口 禁用root登录</h1>
+            <h1 id="seo-header">Docker 安装 Nacos</h1>
             
             
               <div class="markdown-body">
                 
-                <p>Linux 新机修改 SSH 端口，禁用 root 登录</p>
+                <p><a target="_blank" rel="noopener" href="https://nacos.io/zh-cn/">Nacos</a> 是阿里的一个开源中间件，用于服务的注册以及发现，配置和服务管理。</p>
 <span id="more"></span>
 
-<h1 id="启用-SELinux"><a href="#启用-SELinux" class="headerlink" title="启用 SELinux"></a>启用 SELinux</h1><p>检查状态</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sestatus<br></code></pre></td></tr></table></figure>
+<h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><p>CentOS release 7.4.1708</p>
+<p>Docker 19.03.1</p>
+<p>Docker Compose 1.24.1</p>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><ol>
+<li><p>安装<code>Git</code></p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cmake">yum <span class="hljs-keyword">install</span> git -y<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>安装 <code>Docker</code>，<a target="_blank" rel="noopener" href="https://docs.docker.com/install/linux/docker-ce/centos/">官网</a>，<a target="_blank" rel="noopener" href="https://holylcd.gitee.io/2019/01/30/5fd50d278d504636b6d32603d5018429.html">个人教程</a></p>
+</li>
+<li><p>克隆项目</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">git <span class="hljs-built_in">clone</span> --depth 1 https://github.com/nacos-group/nacos-docker.git<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>Standalone Derby</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">docker-compose -f example/standalone-derby.yaml up<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>Standalone Mysql</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">docker-compose -f example/standalone-mysql.yaml up<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>Cluster</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">docker-compose -f example/cluster-hostname.yaml up <br></code></pre></td></tr></table></figure>
+</li>
+<li><p>查询服务状态</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">docker ps -a<br></code></pre></td></tr></table></figure></li>
+</ol>
+<h1 id="防火墙"><a href="#防火墙" class="headerlink" title="防火墙"></a>防火墙</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">firewall-cmd --zone=public --add-port=8848/tcp --permanent<br></code></pre></td></tr></table></figure>
 
-<p>安装</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">yum install selinux-policy-targeted<br></code></pre></td></tr></table></figure>
-
-<p>开启</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">vim /etc/selinux/config<br>或<br>setenforce 1<br></code></pre></td></tr></table></figure>
-
-<p>设置SELinux下次重启仍然保持开启，【重要】否则无法正常启动系统</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">touch</span> /.autorelabel<br></code></pre></td></tr></table></figure>
-
-<p>重启</p>
-<h1 id="修改SSH端口"><a href="#修改SSH端口" class="headerlink" title="修改SSH端口"></a>修改SSH端口</h1><p>修改 sshd 配置</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">vim /etc/ssh/sshd_config<br></code></pre></td></tr></table></figure>
-
-<figure class="highlight vhdl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs vhdl"><span class="hljs-keyword">Port</span> <span class="hljs-number">22</span> //旧 <span class="hljs-keyword">Port</span>，先保留，防止翻车导致无法远程登录<br><span class="hljs-keyword">Port</span> <span class="hljs-number">2222</span> //新 <span class="hljs-keyword">Port</span><br></code></pre></td></tr></table></figure>
-
-<p>开放端口</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 启动防火墙</span><br>systemctl start firewalld<br><span class="hljs-comment"># 添加开放端口</span><br>firewall-cmd --zone=public --add-port=2222/tcp --permanent<br><span class="hljs-comment"># 重载端口配置</span><br>firewall-cmd --reload<br></code></pre></td></tr></table></figure>
-
-<p>查看 SSH 端口</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">semanage port -l | grep ssh<br></code></pre></td></tr></table></figure>
-
-<p>添加 SSH 端口，之后可以再次查看端口，确认是否添加成功</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">semanage port -a -t ssh_port_t -p tcp 2222<br></code></pre></td></tr></table></figure>
-
-<p>如果出现 semanage command not found，请执行 </p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">yum provides /usr/sbin/semanage<br>或者<br>yum whatprovides /usr/sbin/semanage<br>yum -y install policycoreutils-python<br></code></pre></td></tr></table></figure>
-
-<p>重启服务</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">systemctl restart sshd<br></code></pre></td></tr></table></figure>
-
-<p>旧的远程连接不会离线，可以先保留窗口，新开窗口测试 SSH 端口是否正常</p>
-<p>服务正常之后，回头注释 <code>/etc/ssh/sshd_config</code> 的 22 Port</p>
-<h1 id="禁用-root-远程登录"><a href="#禁用-root-远程登录" class="headerlink" title="禁用 root 远程登录"></a>禁用 root 远程登录</h1><p>修改配置</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">vim /etc/ssh/sshd_config<br></code></pre></td></tr></table></figure>
-
-<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs gams">#PermitRootLogin <span class="hljs-keyword">yes</span>  #去掉注释，<span class="hljs-keyword">yes</span>-允许登录，<span class="hljs-keyword">no</span>-不允许登录<br></code></pre></td></tr></table></figure>
-
-<p>重启服务</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">systemctl restart sshd<br></code></pre></td></tr></table></figure>
-
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a target="_blank" rel="noopener" href="https://hub.docker.com/r/nacos/nacos-server">Nacos</a></p>
 
                 
               </div>
@@ -342,7 +328,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/CentOS/" class="category-chain-item">CentOS</a>
+  <a href="/categories/Nacos/" class="category-chain-item">Nacos</a>
   
   
 
@@ -357,7 +343,11 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/CentOS/" class="print-no-link">#CentOS</a>
+        <a href="/tags/Spring-Cloud-Alibaba/" class="print-no-link">#Spring Cloud Alibaba</a>
+      
+        <a href="/tags/Nacos/" class="print-no-link">#Nacos</a>
+      
+        <a href="/tags/Spring-Cloud/" class="print-no-link">#Spring Cloud</a>
       
     </div>
   
@@ -369,8 +359,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>修改SSH端口 禁用root登录</div>
-      <div>http://example.com/2019/09/17/修改SSH端口-禁用root登录/</div>
+      <div>Docker 安装 Nacos</div>
+      <div>http://example.com/2019/09/18/docker/Docker-安装-Nacos/</div>
     </div>
     <div class="license-meta">
       
@@ -382,7 +372,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2019年9月17日</div>
+          <div>2019年9月18日</div>
         </div>
       
       
@@ -414,9 +404,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2019/09/18/docker/Docker-%E5%AE%89%E8%A3%85-Nacos/" title="Docker 安装 Nacos">
+                      <a href="/2019/10/03/docker/Docker-%E5%AE%89%E8%A3%85-Redis/" title="Docker 安装 Redis">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Docker 安装 Nacos</span>
+                        <span class="hidden-mobile">Docker 安装 Redis</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -424,8 +414,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2019/09/12/Spring-Cache-Redis%E5%AE%9E%E7%8E%B0-Spring-Boot-Redis/" title="Spring Cache Redis实现 (Spring Boot + Redis)">
-                        <span class="hidden-mobile">Spring Cache Redis实现 (Spring Boot + Redis)</span>
+                      <a href="/2019/09/17/%E4%BF%AE%E6%94%B9SSH%E7%AB%AF%E5%8F%A3-%E7%A6%81%E7%94%A8root%E7%99%BB%E5%BD%95/" title="修改SSH端口 禁用root登录">
+                        <span class="hidden-mobile">修改SSH端口 禁用root登录</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

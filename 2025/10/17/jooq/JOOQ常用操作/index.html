@@ -19,25 +19,24 @@
   <meta name="author" content="Holy">
   <meta name="keywords" content="Holy, Blog">
   
-    <meta name="description" content="Docker 是常用的软件容器平台，可快速创建、部署服务，提高生产效率。">
+    <meta name="description" content="概述JOOQ 常用操作 SQL123456789101112131415161718192021222324252627282930&#x2F;&#x2F; 初始化不带连接的上下文操作val dslContext &#x3D; DSL.using(    SQLDialect.MYSQL,    Settings()        &#x2F;&#x2F; SQL渲染库名。禁用库名        .withRenderSchema(false)">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Docker 安装教程">
-<meta property="og:url" content="http://example.com/2019/01/30/docker%20%E5%AE%89%E8%A3%85/index.html">
+<meta property="og:title" content="JOOQ 常用操作">
+<meta property="og:url" content="http://example.com/2025/10/17/jooq/JOOQ%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/index.html">
 <meta property="og:site_name" content="Mozzie🤔🎉🚀✨⭐🌟💫">
-<meta property="og:description" content="Docker 是常用的软件容器平台，可快速创建、部署服务，提高生产效率。">
+<meta property="og:description" content="概述JOOQ 常用操作 SQL123456789101112131415161718192021222324252627282930&#x2F;&#x2F; 初始化不带连接的上下文操作val dslContext &#x3D; DSL.using(    SQLDialect.MYSQL,    Settings()        &#x2F;&#x2F; SQL渲染库名。禁用库名        .withRenderSchema(false)">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2019-01-30T02:12:56.000Z">
-<meta property="article:modified_time" content="2022-03-28T01:47:53.000Z">
+<meta property="article:published_time" content="2025-10-17T01:21:00.000Z">
+<meta property="article:modified_time" content="2025-10-17T01:23:44.529Z">
 <meta property="article:author" content="Holy">
-<meta property="article:tag" content="Docker">
-<meta property="article:tag" content="微服务">
+<meta property="article:tag" content="JOOQ">
 <meta name="twitter:card" content="summary_large_image">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>Docker 安装教程 - Mozzie🤔🎉🚀✨⭐🌟💫</title>
+  <title>JOOQ 常用操作 - Mozzie🤔🎉🚀✨⭐🌟💫</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -203,7 +202,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Docker 安装教程"></span>
+            <span id="subtitle" data-typed-text="JOOQ 常用操作"></span>
           
         </div>
 
@@ -214,8 +213,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2019-01-30 10:12" pubdate>
-          2019年1月30日 上午
+        <time datetime="2025-10-17 09:21" pubdate>
+          2025年10月17日 上午
         </time>
       </span>
     
@@ -226,7 +225,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          244 字
+          112 字
         
       </span>
     
@@ -237,7 +236,7 @@
         
         
         
-          3 分钟
+          1 分钟
         
       </span>
     
@@ -274,64 +273,13 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">Docker 安装教程</h1>
+            <h1 id="seo-header">JOOQ 常用操作</h1>
             
             
               <div class="markdown-body">
                 
-                <p><a href="www.docker.com">Docker</a> 是常用的软件容器平台，可快速创建、部署服务，提高生产效率。</p>
-<span id="more"></span>
-
-<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>操作系统：Centos7</p>
-<p>SeLinux：开启</p>
-<h2 id="存储库安装"><a href="#存储库安装" class="headerlink" title="存储库安装"></a>存储库安装</h2><p><strong>卸载旧</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo yum remove \<br>  docker \<br>  docker-client \<br>  docker-client-latest \<br>  docker-common \<br>  docker-latest \<br>  docker-latest-logrotate \<br>  docker-logrotate \<br>  docker-engine<br></code></pre></td></tr></table></figure>
-
-<p><strong>安装需要的包</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo yum install -y \<br>  yum-utils \<br>  device-mapper-persistent-data \<br>  lvm2<br></code></pre></td></tr></table></figure>
-
-<p><strong>设置稳定存储库</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo yum-config-manager \<br>  --add-repo \<br>  https://download.docker.com/linux/centos/docker-ce.repo<br></code></pre></td></tr></table></figure>
-
-<p><strong>安装新 Docker</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo yum install docker-ce docker-ce-cli containerd.io<br></code></pre></td></tr></table></figure>
-
-<p><strong>国内加速</strong></p>
-<p>阿里云搜索 <code>容器镜像加速</code>，进入，找到 <code>镜像加速器</code>，选择相应的操作系统，执行相关指令</p>
-<p>例如：Centos7</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo <span class="hljs-built_in">mkdir</span> -p /etc/docker<br></code></pre></td></tr></table></figure>
-
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">vim <span class="hljs-built_in">tee</span> /etc/docker/daemon.json<br></code></pre></td></tr></table></figure>
-
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;registry-mirrors&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;https://xxxxxx.mirror.aliyuncs.com&quot;</span><span class="hljs-punctuation">]</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
-
-<p>如果已经启动 docker，需要重启服务生效</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo systemctl daemon-reload<br>sudo systemctl restart docker<br></code></pre></td></tr></table></figure>
-
-<p><strong>选择大容量分区</strong></p>
-<p>查看分区空间使用情况</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">df</span> -h<br></code></pre></td></tr></table></figure>
-
-<p>设置 docker 根目录</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">vim /etc/docker/daemon.json<br></code></pre></td></tr></table></figure>
-
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;graph&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;/home/docker&quot;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
-
-
-
-<p>如果已经启动 docker，需要重启服务生效</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo systemctl daemon-reload<br>sudo systemctl restart docker<br></code></pre></td></tr></table></figure>
-
-<p><strong>启动</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo systemctl start docker<br></code></pre></td></tr></table></figure>
-
-<p><strong>自启</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo systemctl <span class="hljs-built_in">enable</span> docker<br></code></pre></td></tr></table></figure>
-
-<p><strong>关闭自启</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo systemctl <span class="hljs-built_in">disable</span> docker<br></code></pre></td></tr></table></figure>
-
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="https://docs.docker.com/install/linux/docker-ce/centos/">docker</a></p>
+                <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>JOOQ 常用操作</p>
+<h4 id="SQL"><a href="#SQL" class="headerlink" title="SQL"></a>SQL</h4><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-comment">// 初始化不带连接的上下文操作</span><br><span class="hljs-keyword">val</span> dslContext = DSL.using(<br>    SQLDialect.MYSQL,<br>    Settings()<br>        <span class="hljs-comment">// SQL渲染库名。禁用库名</span><br>        .withRenderSchema(<span class="hljs-literal">false</span>)<br>        <span class="hljs-comment">// SQL渲染表名。当字段不明确，再添加表名</span><br>        .withRenderTable(RenderTable.WHEN_AMBIGUOUS_COLUMNS)<br>)<br>        <br><span class="hljs-comment">// 查询sql</span><br><span class="hljs-keyword">val</span> select = dslContext<br>    .select()<br>    .from(User.USER)<br>    .<span class="hljs-keyword">where</span>()<br>    <span class="hljs-comment">// 可以添加更多查询条件</span><br>    .limit(<span class="hljs-number">0</span>, <span class="hljs-number">10</span>)<br><br><span class="hljs-comment">// 渲染sql</span><br><span class="hljs-keyword">val</span> sql0 = dslContext.render(select)<br><span class="hljs-keyword">val</span> sql1 = dslContext.renderInlined(select)<br><br><br><span class="hljs-comment">// record 映射</span><br><span class="hljs-keyword">val</span> userRecord = dslContext.newRecord(User.USER)<br><span class="hljs-comment">// map to record</span><br>userRecord.from(mapOf(<span class="hljs-string">&quot;id&quot;</span> to <span class="hljs-number">1</span>, <span class="hljs-string">&quot;name&quot;</span> to <span class="hljs-string">&quot;name&quot;</span>))<br><span class="hljs-comment">// record to map</span><br><span class="hljs-keyword">val</span> map = userRecord.intoMap()<br><br></code></pre></td></tr></table></figure>
 
                 
               </div>
@@ -350,7 +298,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/Docker/" class="category-chain-item">Docker</a>
+  <a href="/categories/JOOQ/" class="category-chain-item">JOOQ</a>
   
   
 
@@ -365,9 +313,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/Docker/" class="print-no-link">#Docker</a>
-      
-        <a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" class="print-no-link">#微服务</a>
+        <a href="/tags/JOOQ/" class="print-no-link">#JOOQ</a>
       
     </div>
   
@@ -379,8 +325,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Docker 安装教程</div>
-      <div>http://example.com/2019/01/30/docker 安装/</div>
+      <div>JOOQ 常用操作</div>
+      <div>http://example.com/2025/10/17/jooq/JOOQ常用操作/</div>
     </div>
     <div class="license-meta">
       
@@ -392,7 +338,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2019年1月30日</div>
+          <div>2025年10月17日</div>
         </div>
       
       
@@ -424,18 +370,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2019/02/05/Docker%20%E5%AE%89%E8%A3%85%20Gitlab/" title="Docker 安装 GitLab 教程">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Docker 安装 GitLab 教程</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2019/01/29/hexo-%E5%BF%AB%E9%80%9F%E5%BC%80%E5%A7%8B/" title="hexo 快速开始">
-                        <span class="hidden-mobile">hexo 快速开始</span>
+                      <a href="/2025/10/16/jooq/Gradle%20Kotlin%20%E9%85%8D%E7%BD%AE%20JOOQ%20%E4%BB%A3%E7%A0%81%E7%94%9F%E6%88%90/" title="使用 Gradle Kotlin DSL 配置 jOOQ 代码生成（Quarkus &amp; Kotlin）">
+                        <span class="hidden-mobile">使用 Gradle Kotlin DSL 配置 jOOQ 代码生成（Quarkus &amp; Kotlin）</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
