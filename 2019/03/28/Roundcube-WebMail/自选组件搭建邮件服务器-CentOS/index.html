@@ -458,12 +458,12 @@
 
 <p>若返回 1 ，则说明设置正确。</p>
 <p>测试用户名数据表的读取</p>
-<p>下面的 <a href="mailto:&#117;&#115;&#101;&#x72;&#49;&#x40;&#x65;&#120;&#x61;&#109;&#112;&#x6c;&#x65;&#46;&#99;&#x6f;&#109;">user1@example.com</a> 请替换为自己设定的用户名其中一个。</p>
+<p>下面的 <a href="mailto:&#117;&#115;&#101;&#114;&#49;&#x40;&#101;&#x78;&#x61;&#x6d;&#112;&#108;&#101;&#46;&#x63;&#111;&#109;">user1@example.com</a> 请替换为自己设定的用户名其中一个。</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh">postmap -q user1@example.com mysql:/etc/postfix/mysql_mailbox_maps.cf<br><br></code></pre></td></tr></table></figure>
 
 <p>若返回 1 ，则说明设置正确。</p>
 <p>测试别名数据表的读取（可选）</p>
-<p>下面的 <a href="mailto:&#x75;&#115;&#101;&#114;&#x31;&#49;&#x40;&#x65;&#120;&#x61;&#109;&#x70;&#x6c;&#101;&#46;&#99;&#111;&#x6d;">user11@example.com</a> 请替换为自己设定的别名其中一个。</p>
+<p>下面的 <a href="mailto:&#117;&#x73;&#x65;&#x72;&#49;&#x31;&#x40;&#x65;&#120;&#97;&#109;&#112;&#x6c;&#x65;&#46;&#x63;&#x6f;&#x6d;">user11@example.com</a> 请替换为自己设定的别名其中一个。</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh">postmap -q user11@example.com mysql:/etc/postfix/mysql_alias_maps.cf<br><br></code></pre></td></tr></table></figure>
 
 <p>若返回别名所对应的真实用户名 ，则说明设置正确。</p>
