@@ -19,34 +19,25 @@
   <meta name="author" content="Holy">
   <meta name="keywords" content="Holy, Blog">
   
-    <meta name="description" content="自建邮件服务器-开源集成方案iRedMail">
+    <meta name="description" content="JDBC 批量操作性能优化 rewriteBatchedStatements 特性总结rewriteBatchedStatements 是 $ \text{MySQL} $ $ \text{JDBC} $ 驱动 ($ \text{Connector&#x2F;J} $) 提供的一个非标准但极其重要的连接参数。它通过在应用层重写 $ \text{SQL} $ 语句，来显著减少网络往返和数据库端的 $">
 <meta property="og:type" content="article">
-<meta property="og:title" content="自建邮件服务器-开源集成方案iRedMail">
-<meta property="og:url" content="http://example.com/2019/03/22/iRedMail/%E8%87%AA%E5%BB%BA%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8-%E5%BC%80%E6%BA%90%E9%9B%86%E6%88%90%E6%96%B9%E6%A1%88iRedMail/index.html">
+<meta property="og:title" content="批量操作性能优化 rewriteBatchedStatements 特性">
+<meta property="og:url" content="http://example.com/2022/03/28/database/%E6%89%B9%E9%87%8F%E6%93%8D%E4%BD%9C%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%EF%BC%9ArewriteBatchedStatements%20%E7%89%B9%E6%80%A7/index.html">
 <meta property="og:site_name" content="Mozzie🤔🎉🚀✨⭐🌟💫">
-<meta property="og:description" content="自建邮件服务器-开源集成方案iRedMail">
+<meta property="og:description" content="JDBC 批量操作性能优化 rewriteBatchedStatements 特性总结rewriteBatchedStatements 是 $ \text{MySQL} $ $ \text{JDBC} $ 驱动 ($ \text{Connector&#x2F;J} $) 提供的一个非标准但极其重要的连接参数。它通过在应用层重写 $ \text{SQL} $ 语句，来显著减少网络往返和数据库端的 $">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/static/image/%E8%87%AA%E5%BB%BA%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8-%E5%BC%80%E6%BA%90%E9%9B%86%E6%88%90%E6%96%B9%E6%A1%88iRedMail/welcome.png">
-<meta property="og:image" content="http://example.com/static/image/%E8%87%AA%E5%BB%BA%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8-%E5%BC%80%E6%BA%90%E9%9B%86%E6%88%90%E6%96%B9%E6%A1%88iRedMail/mail_storage.png">
-<meta property="og:image" content="http://example.com/static/image/%E8%87%AA%E5%BB%BA%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8-%E5%BC%80%E6%BA%90%E9%9B%86%E6%88%90%E6%96%B9%E6%A1%88iRedMail/backends.png">
-<meta property="og:image" content="http://example.com/static/image/%E8%87%AA%E5%BB%BA%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8-%E5%BC%80%E6%BA%90%E9%9B%86%E6%88%90%E6%96%B9%E6%A1%88iRedMail/ldap_suffix.png">
-<meta property="og:image" content="http://example.com/static/image/%E8%87%AA%E5%BB%BA%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8-%E5%BC%80%E6%BA%90%E9%9B%86%E6%88%90%E6%96%B9%E6%A1%88iRedMail/first_domain.png">
-<meta property="og:image" content="http://example.com/static/image/%E8%87%AA%E5%BB%BA%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8-%E5%BC%80%E6%BA%90%E9%9B%86%E6%88%90%E6%96%B9%E6%A1%88iRedMail/admin_pw.png">
-<meta property="og:image" content="http://example.com/static/image/%E8%87%AA%E5%BB%BA%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8-%E5%BC%80%E6%BA%90%E9%9B%86%E6%88%90%E6%96%B9%E6%A1%88iRedMail/optional_components.png">
-<meta property="og:image" content="http://example.com/static/image/%E8%87%AA%E5%BB%BA%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8-%E5%BC%80%E6%BA%90%E9%9B%86%E6%88%90%E6%96%B9%E6%A1%88iRedMail/review.png">
-<meta property="og:image" content="http://example.com/static/image/%E8%87%AA%E5%BB%BA%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8-%E5%BC%80%E6%BA%90%E9%9B%86%E6%88%90%E6%96%B9%E6%A1%88iRedMail/dns_settings.png">
-<meta property="article:published_time" content="2019-03-22T02:13:44.000Z">
-<meta property="article:modified_time" content="2025-10-17T01:47:08.232Z">
+<meta property="article:published_time" content="2022-03-28T01:47:53.000Z">
+<meta property="article:modified_time" content="2025-10-25T15:58:39.858Z">
 <meta property="article:author" content="Holy">
-<meta property="article:tag" content="iRedMail">
+<meta property="article:tag" content="RDBMS">
+<meta property="article:tag" content="关系型数据库">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/static/image/%E8%87%AA%E5%BB%BA%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8-%E5%BC%80%E6%BA%90%E9%9B%86%E6%88%90%E6%96%B9%E6%A1%88iRedMail/welcome.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>自建邮件服务器-开源集成方案iRedMail - Mozzie🤔🎉🚀✨⭐🌟💫</title>
+  <title>批量操作性能优化 rewriteBatchedStatements 特性 - Mozzie🤔🎉🚀✨⭐🌟💫</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -212,7 +203,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="自建邮件服务器-开源集成方案iRedMail"></span>
+            <span id="subtitle" data-typed-text="批量操作性能优化 rewriteBatchedStatements 特性"></span>
           
         </div>
 
@@ -223,8 +214,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2019-03-22 10:13" pubdate>
-          2019年3月22日 上午
+        <time datetime="2022-03-28 09:47" pubdate>
+          2022年3月28日 上午
         </time>
       </span>
     
@@ -235,7 +226,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.3k 字
+          798 字
         
       </span>
     
@@ -246,7 +237,7 @@
         
         
         
-          11 分钟
+          7 分钟
         
       </span>
     
@@ -283,175 +274,88 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">自建邮件服务器-开源集成方案iRedMail</h1>
+            <h1 id="seo-header">批量操作性能优化 rewriteBatchedStatements 特性</h1>
             
             
               <div class="markdown-body">
                 
-                <p>自建邮件服务器-开源集成方案iRedMail</p>
-<span id="more"></span>
-
-<h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><p>系统 CentOS 7</p>
-<p>域名 example.com</p>
-<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><ol>
-<li><p>设置 hostname</p>
-<p>RHEL&#x2F;CentOS 6，<code>/etc/sysconfig/network</code></p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">HOSTNAME=mail<br></code></pre></td></tr></table></figure>
-
-<p>CentOS 7</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">hostnamectl set-hostname mail<br></code></pre></td></tr></table></figure>
-
-<p>例如完整域名是 mail.example.com，应该设置 mail</p>
-<p>验证主机名</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">hostname -f<br></code></pre></td></tr></table></figure>
-
-
-</li>
-<li><p>设置 host</p>
-<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs accesslog"><span class="hljs-number">127.0.0.1</span>   mail.example.com mail localhost localhost.localdomain<br></code></pre></td></tr></table></figure>
-
-<p>FQDN 主机名列在第一个，短主机名列在第二个</p>
-</li>
-<li><p>设置 SELinux</p>
-<p>查看现状态</p>
-<p>iRedMail 不支持 SELinux，所以需要在 &#x2F;etc&#x2F;selinux&#x2F;config 文件里禁用它</p>
-<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs abnf"><span class="hljs-attribute">SELINUX</span><span class="hljs-operator">=</span>disabled<br></code></pre></td></tr></table></figure>
-
-<p>如果不希望禁用 SELinux，可以设置为让它打印警告信息但不强制限制</p>
-<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs abnf"><span class="hljs-attribute">SELINUX</span><span class="hljs-operator">=</span>permissive<br></code></pre></td></tr></table></figure>
-</li>
-<li><p>上传最新版 iRedMail 安装包</p>
-</li>
-<li><p>解压 iRedMail</p>
-<p>安装解压工具</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">yum install  bzip2<br></code></pre></td></tr></table></figure>
-
-<p>解压</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">cd</span> /program<br></code></pre></td></tr></table></figure>
-
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">tar xjf iRedMail-x.y.z.tar.bz2<br></code></pre></td></tr></table></figure>
-</li>
-<li><p>运行安装程序</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">cd</span> /root/iRedMail-x.y.z/<br>bash iRedMail.sh<br></code></pre></td></tr></table></figure>
-</li>
-<li><p>安装过程</p>
-<p>以下是官方安装过程</p>
+                <h1 id="JDBC-批量操作性能优化-rewriteBatchedStatements-特性总结"><a href="#JDBC-批量操作性能优化-rewriteBatchedStatements-特性总结" class="headerlink" title="JDBC 批量操作性能优化 rewriteBatchedStatements 特性总结"></a>JDBC 批量操作性能优化 rewriteBatchedStatements 特性总结</h1><p><code>rewriteBatchedStatements</code> 是 $ \text{MySQL} $ $ \text{JDBC} $ 驱动 ($ \text{Connector&#x2F;J} $) 提供的一个<strong>非标准</strong>但极其重要的连接参数。它通过在应用层重写 $ \text{SQL} $ 语句，来显著减少网络往返和数据库端的 $ \text{SQL} $ 解析次数，从而大幅提高批量 $ \text{DML} $ 操作的性能。</p>
+<h3 id="一、核心作用原理：减少网络往返和-text-SQL-执行次数"><a href="#一、核心作用原理：减少网络往返和-text-SQL-执行次数" class="headerlink" title="一、核心作用原理：减少网络往返和 $ \text{SQL} $ 执行次数"></a>一、核心作用原理：减少网络往返和 $ \text{SQL} $ 执行次数</h3><p>在默认 $ \text{JDBC} $ 批处理中，即使使用了 <code>addBatch()</code> 和 <code>executeBatch()</code>，数据库服务器仍可能将 $ N $ 条语句视为 $ N $ 个独立的执行请求。启用 <code>rewriteBatchedStatements=true</code> 后，驱动程序会进行以下优化：</p>
+<h4 id="1-对-text-INSERT-语句的优化（效果最佳）"><a href="#1-对-text-INSERT-语句的优化（效果最佳）" class="headerlink" title="1. 对 $ \text{INSERT} $ 语句的优化（效果最佳）"></a>1. 对 $ \text{INSERT} $ 语句的优化（效果最佳）</h4><p>这是该特性的<strong>最大优势</strong>。驱动程序会将多条独立的 $ \text{INSERT} $ 语句重写成一条包含多组 <code>VALUES</code> 的<strong>单条 <strong>$ \text{SQL} $</strong> 语句</strong>。</p>
+<table>
+<thead>
+<tr>
+<th align="left">客户端 $ \text{Batch} $ 代码（逻辑上）</th>
+<th align="left">开启重写后数据库实际接收的 $ \text{SQL} $</th>
+<th align="left">性能提升来源</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>INSERT INTO T VALUES(?);</code> ($ \times N $)</td>
+<td align="left"><code>INSERT INTO T VALUES(?), (?), (?), ...;</code> (一条 $ \text{SQL} $ 语句)</td>
+<td align="left"><strong>极高。</strong> 数据库只需<strong>解析和执行一次</strong>，效率是默认批处理的数倍。</td>
+</tr>
+</tbody></table>
+<h4 id="2-对-text-UPDATE-和-text-DELETE-语句的优化"><a href="#2-对-text-UPDATE-和-text-DELETE-语句的优化" class="headerlink" title="2. 对 $ \text{UPDATE} $ 和 $ \text{DELETE} $ 语句的优化"></a>2. 对 $ \text{UPDATE} $ 和 $ \text{DELETE} $ 语句的优化</h4><p>驱动程序通常<strong>不会</strong>对 $ \text{UPDATE} $ 和 $ \text{DELETE} $ 语句进行多值语句重写。但它会通过以下方式优化：</p>
 <ul>
-<li>欢迎和感谢使用</li>
+<li><strong>多查询合并（</strong>$ \text{Multi-Query} $<strong>）：</strong> 驱动程序将 $ N $ 条 $ \text{UPDATE} $ 或 $ \text{DELETE} $ 语句用分号（<code>;</code>）连接起来，形成一个<strong>多查询字符串</strong>，在单次网络往返中发送给数据库。</li>
+<li><strong>性能提升：</strong> 提升主要来自将 $ N $ 次网络往返（$ \text{Round Trips} $）减少到 $ 1 $ 次（或少数几次）。数据库端仍然会依次执行 $ N $ 条语句。</li>
 </ul>
-<p><img src="/../../static/image/%E8%87%AA%E5%BB%BA%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8-%E5%BC%80%E6%BA%90%E9%9B%86%E6%88%90%E6%96%B9%E6%A1%88iRedMail/welcome.png" srcset="/img/loading.gif" lazyload alt="welcome.png"></p>
-<ul>
-<li>指定用于存储用户邮箱的路径。默认是 <code>/var/vmail/</code>。</li>
-</ul>
-<p><img src="/../../static/image/%E8%87%AA%E5%BB%BA%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8-%E5%BC%80%E6%BA%90%E9%9B%86%E6%88%90%E6%96%B9%E6%A1%88iRedMail/mail_storage.png" srcset="/img/loading.gif" lazyload alt="mail_storage.png"></p>
-<ul>
-<li>选择用于存储邮件账号的数据库。</li>
-</ul>
-<p>Note</p>
-<p>各个数据库之间没有太大区别，建议使用自己熟悉的数据库，便于后期维护。</p>
-<p><img src="/../../static/image/%E8%87%AA%E5%BB%BA%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8-%E5%BC%80%E6%BA%90%E9%9B%86%E6%88%90%E6%96%B9%E6%A1%88iRedMail/backends.png" srcset="/img/loading.gif" lazyload alt="backends.png"></p>
-<ul>
-<li>如果选择 OpenLDAP 数据库用于存储邮件账号，安装程序会要求你输入 LDAP 前缀：</li>
-</ul>
-<p><img src="/../../static/image/%E8%87%AA%E5%BB%BA%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8-%E5%BC%80%E6%BA%90%E9%9B%86%E6%88%90%E6%96%B9%E6%A1%88iRedMail/ldap_suffix.png" srcset="/img/loading.gif" lazyload alt="ldap_suffix.png"></p>
-<p>MySQL&#x2F;MariaDB&#x2F;PostgreSQL 用户</p>
-<p>如果选择 MySQL&#x2F;MariaDB&#x2F;PostgreSQL 用于存储邮件账号, 安装程序会为数据库的 root 用户生成一个随机的强密码，安装完成后可以在 <code>iRedMail.tips</code> 文件里找到。</p>
-<ul>
-<li>添加第一个邮件域名</li>
-</ul>
-<p><img src="/../../static/image/%E8%87%AA%E5%BB%BA%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8-%E5%BC%80%E6%BA%90%E9%9B%86%E6%88%90%E6%96%B9%E6%A1%88iRedMail/first_domain.png" srcset="/img/loading.gif" lazyload alt="first_domain.png"></p>
-<p>这里填 example.com</p>
-<ul>
-<li>设置邮件管理员的密码</li>
-</ul>
-<p>Note</p>
-<p>该账号即是邮件管理员，也是普通的邮件账号，可以登录管理后台和 webmail。</p>
-<p><img src="/../../static/image/%E8%87%AA%E5%BB%BA%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8-%E5%BC%80%E6%BA%90%E9%9B%86%E6%88%90%E6%96%B9%E6%A1%88iRedMail/admin_pw.png" srcset="/img/loading.gif" lazyload alt="admin_pw.png"></p>
-<ul>
-<li>可选的组件</li>
-</ul>
-<p><img src="/../../static/image/%E8%87%AA%E5%BB%BA%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8-%E5%BC%80%E6%BA%90%E9%9B%86%E6%88%90%E6%96%B9%E6%A1%88iRedMail/optional_components.png" srcset="/img/loading.gif" lazyload alt="optional_components.png"></p>
-<p>回答完上面的几个问题之后，安装程序给出本次安装的基本信息并要求确认是否实际 执行安装，请输入 <code>y</code> 或 <code>Y</code> 并按回车键确认，或 <code>n</code>, <code>N</code> 并按回车键中止安装。</p>
-<p><img src="/../../static/image/%E8%87%AA%E5%BB%BA%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8-%E5%BC%80%E6%BA%90%E9%9B%86%E6%88%90%E6%96%B9%E6%A1%88iRedMail/review.png" srcset="/img/loading.gif" lazyload alt="review.png"></p>
-</li>
-</ol>
-<p>安装完成后你必须知道的几个重要事项</p>
-<ul>
-<li>邮件服务器最薄弱的环节是用户的弱密码，所以请一定强制你的用户使用强度高的密码。</li>
-<li>阅读 &#x2F;root&#x2F;iRedMail-x.y.z&#x2F;iRedMail.tips 文件，它包含了：<ul>
-<li>各个 web 程序的访问地址（URL），用户名和密码。</li>
-<li>各个组件的配置文件路径。除此之外还应该阅读文档：Locations of configuration and log files of major components.</li>
-<li>以及其它一些重要和敏感信息</li>
-</ul>
-</li>
-<li>设置 DNS 记录</li>
-<li>如何配置邮件客户端程序</li>
-<li>强烈建议获取 SSL 证书以避免每次访问 web 程序时烦人的自签名 SSL 证书警告， Let’s Encrypt 提供免费的 SSL 证书。可根据该文档 配置获取的证书：use a SSL certificate.</li>
-<li>如果需要批量添加邮件账号，可以参考以下针对不同数据库的批量建账号的文档： OpenLDAP， MySQL&#x2F;MariaDB&#x2F;PostgreSQL。</li>
-<li>如果这是一台繁忙的服务器，这里有一些提升性能的建议。</li>
-</ul>
-<p>访问 webmail 和其它 web 程序<br>安装完成后，可以通过以下 URL 访问相关程序。注意：请将 &lt;server&gt; 替换为实际的 服务器地址。</p>
-<ul>
-<li>Roundcube webmail: <a target="_blank" rel="noopener" href="https://mail.example.com/mail/">https://mail.example.com/mail/</a></li>
-<li>SOGo Groupware: <a target="_blank" rel="noopener" href="https://mail.example.com/SOGo">https://mail.example.com/SOGo</a></li>
-<li>Web 管理后台: httpS:&#x2F;&#x2F;mail.example.com&#x2F;iredadmin&#x2F;</li>
-<li>Awstats: httpS:&#x2F;&#x2F;mail.example.com&#x2F;awstats&#x2F;awstats.pl?config&#x3D;web (or <code>?config=smtp</code> for SMTP log)</li>
-</ul>
-<h1 id="DNS-设置"><a href="#DNS-设置" class="headerlink" title="DNS 设置"></a>DNS 设置</h1><p><img src="/../../static/image/%E8%87%AA%E5%BB%BA%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8-%E5%BC%80%E6%BA%90%E9%9B%86%E6%88%90%E6%96%B9%E6%A1%88iRedMail/dns_settings.png" srcset="/img/loading.gif" lazyload alt="dns_settings.png"></p>
-<p>SPF</p>
-<p>SPF 记录是一种域名服务 (DNS) 记录，可确定允许哪些邮件服务器代表您的域来发送电子邮件</p>
-<p>这里说几个常用的：</p>
-<ol>
-<li>a：所有该域名的A记录都为通过，a不指定的情况下为当前域名</li>
-<li>ip4：指定通过的IP</li>
-<li>mx：mx记录域名的A记录IP可以发邮件</li>
-<li>all：结束标志，“-”表示只允许设置的记录为通过，“~”表示失败，通常用于测试，“+”表示忽略SPF</li>
-</ol>
-<p>DKIM</p>
-<p>centos6</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">amavisd showkeys<br></code></pre></td></tr></table></figure>
-
-<p>centos7</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">amavisd -c /etc/amavisd/amavisd.conf showkeys<br></code></pre></td></tr></table></figure>
-
-<p>复制结果，添加到DNS，主机记录为<code>dkim._domainkey</code>，<code>TXT</code>类别</p>
-<p>DMARC</p>
-<p>DMARC协议是有效解决信头From伪造而诞生的一种新的邮件来源验证手段，为邮件发件人地址提供强大保护，并在邮件收发双方之间建立起一个数据反馈机制。</p>
-<ul>
-<li>p：用于告知收件方，当检测到某邮件存在伪造我（发件人）的情况，收件方要做出什么处理，处理方式从轻到重依次为：none为不作任何处理；quarantine为将邮件标记为垃圾邮件；reject为拒绝该邮件。初期建议设置为none。</li>
-<li>rua：用于在收件方检测后，将一段时间的汇总报告，发送到哪个邮箱地址。</li>
-<li>ruf：用于当检测到伪造邮件时，收件方须将该伪造信息的报告发送到哪个邮箱地址。</li>
-</ul>
-<p>例如我设置的是v&#x3D;DMARC1;p&#x3D;reject;rua&#x3D;<a href="mailto:&#x78;&#120;&#64;&#108;&#120;&#x78;&#46;&#x63;&#111;&#x6d;">xx@lxx.com</a>，意思是拒绝伪造邮件，并且将一段时间的汇总报告发送给我。</p>
-<p>添加到DNS</p>
-<p>添加TXT记录，主机名：<code>_dmarc</code>，记录值：<code>v=DMARC1;p=reject;rua=xx@lxx.com</code></p>
-<p>PTR</p>
-<p>将 mail.xx.com 设置PTR</p>
-<p>添加好了以后可以通过以下命令查看</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">dig -x  IP<br></code></pre></td></tr></table></figure>
-
-<p>如果看到了PTR记录为你的域名那就说明成功了。</p>
-<p>测试工具</p>
-<p><a target="_blank" rel="noopener" href="http://www.mail-tester.com/">http://www.mail-tester.com/</a></p>
-<p><strong>iRedmail 主要组件</strong></p>
-<ul>
-<li>Apache</li>
-<li>Nginx </li>
-<li>PHP</li>
-<li>MySQL</li>
-<li>OpenLDAP</li>
-<li>Postfix</li>
-<li>Dovecot</li>
-<li>Amavisd</li>
-<li>ClamAV</li>
-<li>SpamAssassin</li>
-<li>Policyd</li>
-<li>Pysieved</li>
-<li>Roundcube</li>
-<li>Awstats 6.9</li>
-</ul>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a target="_blank" rel="noopener" href="https://docs.iredmail.org/install.iredmail.on.rhel-zh_CN.html">iRedMail doc</a></p>
-<p><a href="lomu.me/post/SPF-DKIM-DMARC-PTR">邮件服务器添加SPF、DKIM、DMARC、PTR提高送达率</a></p>
+<h3 id="二、使用注意事项和潜在风险"><a href="#二、使用注意事项和潜在风险" class="headerlink" title="二、使用注意事项和潜在风险"></a>二、使用注意事项和潜在风险</h3><table>
+<thead>
+<tr>
+<th align="left">方面</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>推荐性</strong></td>
+<td align="left"><strong>强烈推荐</strong>在所有批量 $ \text{INSERT} $、$ \text{UPDATE} $ 和 $ \text{DELETE} $ 场景下使用。</td>
+</tr>
+<tr>
+<td align="left"><strong>错误处理</strong></td>
+<td align="left">启用该特性后，批处理中的任何一条 $ \text{SQL} $ 失败，可能会导致<strong>后续的语句全部停止执行</strong>。 $ \text{executeBatch()} $ 返回的受影响行数数组可能不精确。</td>
+</tr>
+<tr>
+<td align="left"><code>Statement</code></td>
+<td align="left">虽然对 <code>Statement</code> 对象也有效，但可能会引入 $ \text{SQL} $ 注入风险。<strong>推荐搭配 <strong>$ \text{PreparedStatement} $</strong> 使用。</strong></td>
+</tr>
+<tr>
+<td align="left"><strong>最佳实践</strong></td>
+<td align="left"><strong>对于批量 <strong>$ \text{DELETE} $</strong>：</strong> 手动将多个 $ \text{ID} $ 合并成一条带有 $ \text{IN} $ 子句的 $ \text{SQL} $ 语句，性能通常比依赖 <code>rewriteBatchedStatements</code> 更高。</td>
+</tr>
+</tbody></table>
+<h3 id="三、主流数据库对批量操作的支持概览"><a href="#三、主流数据库对批量操作的支持概览" class="headerlink" title="三、主流数据库对批量操作的支持概览"></a>三、主流数据库对批量操作的支持概览</h3><table>
+<thead>
+<tr>
+<th align="left">数据库</th>
+<th align="left">$ \text{JDBC} $ 批量优化机制</th>
+<th align="left">是否有类似 $ \text{rewriteBatchedStatements} $ 的驱动参数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">$ \text{MySQL} $</td>
+<td align="left">$ \text{JDBC} $ 批处理 + $ \text{SQL} $ 重写</td>
+<td align="left"><strong>有：</strong> <code>rewriteBatchedStatements=true</code></td>
+</tr>
+<tr>
+<td align="left">$ \text{PostgreSQL} $</td>
+<td align="left">$ \text{JDBC} $ 批处理 + $ \text{Extended Query Protocol} $</td>
+<td align="left"><strong>有：</strong> <code>reWriteBatchedInserts=true</code></td>
+</tr>
+<tr>
+<td align="left">$ \text{Oracle} $</td>
+<td align="left">$ \text{JDBC} $ 批处理（标准）</td>
+<td align="left"><strong>无。</strong> 依赖 $ \text{JDBC} $ 标准批处理，驱动内部进行高效的数据传输。</td>
+</tr>
+<tr>
+<td align="left">$ \text{SQL Server} $</td>
+<td align="left">$ \text{JDBC} $ 批处理（标准）</td>
+<td align="left"><strong>无。</strong> 可使用 $ \text{Bulk Copy} $ 机制进行高效批量导入。</td>
+</tr>
+</tbody></table>
+<p><strong>总结：</strong></p>
+<p><code>rewriteBatchedStatements</code> 是一个强大的优化工具，尤其对于 $ \text{MySQL} $ 的批量 $ \text{INSERT} $ 性能提升是革命性的。在配置 $ \text{JDBC} $ 连接时，应当始终考虑开启此参数（或 $ \text{PostgreSQL} $ 的类似参数）来充分利用批处理带来的性能优势。</p>
 
                 
               </div>
@@ -470,7 +374,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/iRedMail/" class="category-chain-item">iRedMail</a>
+  <a href="/categories/RDBMS/" class="category-chain-item">RDBMS</a>
   
   
 
@@ -485,7 +389,9 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/iRedMail/" class="print-no-link">#iRedMail</a>
+        <a href="/tags/%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93/" class="print-no-link">#关系型数据库</a>
+      
+        <a href="/tags/RDBMS/" class="print-no-link">#RDBMS</a>
       
     </div>
   
@@ -497,8 +403,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>自建邮件服务器-开源集成方案iRedMail</div>
-      <div>http://example.com/2019/03/22/iRedMail/自建邮件服务器-开源集成方案iRedMail/</div>
+      <div>批量操作性能优化 rewriteBatchedStatements 特性</div>
+      <div>http://example.com/2022/03/28/database/批量操作性能优化：rewriteBatchedStatements 特性/</div>
     </div>
     <div class="license-meta">
       
@@ -510,7 +416,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2019年3月22日</div>
+          <div>2022年3月28日</div>
         </div>
       
       
@@ -542,9 +448,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2019/03/28/Roundcube-WebMail/%E8%87%AA%E9%80%89%E7%BB%84%E4%BB%B6%E6%90%AD%E5%BB%BA%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8-CentOS/" title="自选组件搭建邮件服务器 CentOS">
+                      <a href="/2025/10/16/jooq/Gradle%20Kotlin%20%E9%85%8D%E7%BD%AE%20JOOQ%20%E4%BB%A3%E7%A0%81%E7%94%9F%E6%88%90/" title="使用 Gradle Kotlin DSL 配置 jOOQ 代码生成（Quarkus &amp; Kotlin）">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">自选组件搭建邮件服务器 CentOS</span>
+                        <span class="hidden-mobile">使用 Gradle Kotlin DSL 配置 jOOQ 代码生成（Quarkus &amp; Kotlin）</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -552,8 +458,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2019/02/05/docker/Docker%20%E5%AE%89%E8%A3%85%20Gitlab/" title="Docker 安装 GitLab 教程">
-                        <span class="hidden-mobile">Docker 安装 GitLab 教程</span>
+                      <a href="/2019/10/03/docker/Docker-%E5%AE%89%E8%A3%85-Redis/" title="Docker 安装 Redis">
+                        <span class="hidden-mobile">Docker 安装 Redis</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
