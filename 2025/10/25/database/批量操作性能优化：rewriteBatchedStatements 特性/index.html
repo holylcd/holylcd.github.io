@@ -19,15 +19,15 @@
   <meta name="author" content="Holy">
   <meta name="keywords" content="Holy, Blog">
   
-    <meta name="description" content="JDBC 批量操作性能优化 rewriteBatchedStatements 特性总结rewriteBatchedStatements 是 $ \text{MySQL} $ $ \text{JDBC} $ 驱动 ($ \text{Connector&#x2F;J} $) 提供的一个非标准但极其重要的连接参数。它通过在应用层重写 $ \text{SQL} $ 语句，来显著减少网络往返和数据库端的 $">
+    <meta name="description" content="JDBC 批量操作性能优化 rewriteBatchedStatements 特性总结rewriteBatchedStatements 是 MySQL JDBC 驱动 (Connector&#x2F;J) 提供的一个非标准但极其重要的连接参数。它通过在应用层重写 SQL 语句，来显著减少网络往返和数据库端的 SQL 解析次数，从而大幅提高批量 DML 操作的性能。 一、核心作用原理：减少网络往返和">
 <meta property="og:type" content="article">
 <meta property="og:title" content="批量操作性能优化 rewriteBatchedStatements 特性">
-<meta property="og:url" content="http://example.com/2022/03/28/database/%E6%89%B9%E9%87%8F%E6%93%8D%E4%BD%9C%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%EF%BC%9ArewriteBatchedStatements%20%E7%89%B9%E6%80%A7/index.html">
+<meta property="og:url" content="http://example.com/2025/10/25/database/%E6%89%B9%E9%87%8F%E6%93%8D%E4%BD%9C%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%EF%BC%9ArewriteBatchedStatements%20%E7%89%B9%E6%80%A7/index.html">
 <meta property="og:site_name" content="Mozzie🤔🎉🚀✨⭐🌟💫">
-<meta property="og:description" content="JDBC 批量操作性能优化 rewriteBatchedStatements 特性总结rewriteBatchedStatements 是 $ \text{MySQL} $ $ \text{JDBC} $ 驱动 ($ \text{Connector&#x2F;J} $) 提供的一个非标准但极其重要的连接参数。它通过在应用层重写 $ \text{SQL} $ 语句，来显著减少网络往返和数据库端的 $">
+<meta property="og:description" content="JDBC 批量操作性能优化 rewriteBatchedStatements 特性总结rewriteBatchedStatements 是 MySQL JDBC 驱动 (Connector&#x2F;J) 提供的一个非标准但极其重要的连接参数。它通过在应用层重写 SQL 语句，来显著减少网络往返和数据库端的 SQL 解析次数，从而大幅提高批量 DML 操作的性能。 一、核心作用原理：减少网络往返和">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-03-28T01:47:53.000Z">
-<meta property="article:modified_time" content="2025-10-25T15:58:39.858Z">
+<meta property="article:published_time" content="2025-10-25T12:32:45.000Z">
+<meta property="article:modified_time" content="2025-10-25T17:00:03.109Z">
 <meta property="article:author" content="Holy">
 <meta property="article:tag" content="RDBMS">
 <meta property="article:tag" content="关系型数据库">
@@ -214,8 +214,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-03-28 09:47" pubdate>
-          2022年3月28日 上午
+        <time datetime="2025-10-25 20:32" pubdate>
+          2025年10月25日 晚上
         </time>
       </span>
     
@@ -226,7 +226,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          798 字
+          725 字
         
       </span>
     
@@ -279,27 +279,27 @@
             
               <div class="markdown-body">
                 
-                <h1 id="JDBC-批量操作性能优化-rewriteBatchedStatements-特性总结"><a href="#JDBC-批量操作性能优化-rewriteBatchedStatements-特性总结" class="headerlink" title="JDBC 批量操作性能优化 rewriteBatchedStatements 特性总结"></a>JDBC 批量操作性能优化 rewriteBatchedStatements 特性总结</h1><p><code>rewriteBatchedStatements</code> 是 $ \text{MySQL} $ $ \text{JDBC} $ 驱动 ($ \text{Connector&#x2F;J} $) 提供的一个<strong>非标准</strong>但极其重要的连接参数。它通过在应用层重写 $ \text{SQL} $ 语句，来显著减少网络往返和数据库端的 $ \text{SQL} $ 解析次数，从而大幅提高批量 $ \text{DML} $ 操作的性能。</p>
-<h3 id="一、核心作用原理：减少网络往返和-text-SQL-执行次数"><a href="#一、核心作用原理：减少网络往返和-text-SQL-执行次数" class="headerlink" title="一、核心作用原理：减少网络往返和 $ \text{SQL} $ 执行次数"></a>一、核心作用原理：减少网络往返和 $ \text{SQL} $ 执行次数</h3><p>在默认 $ \text{JDBC} $ 批处理中，即使使用了 <code>addBatch()</code> 和 <code>executeBatch()</code>，数据库服务器仍可能将 $ N $ 条语句视为 $ N $ 个独立的执行请求。启用 <code>rewriteBatchedStatements=true</code> 后，驱动程序会进行以下优化：</p>
-<h4 id="1-对-text-INSERT-语句的优化（效果最佳）"><a href="#1-对-text-INSERT-语句的优化（效果最佳）" class="headerlink" title="1. 对 $ \text{INSERT} $ 语句的优化（效果最佳）"></a>1. 对 $ \text{INSERT} $ 语句的优化（效果最佳）</h4><p>这是该特性的<strong>最大优势</strong>。驱动程序会将多条独立的 $ \text{INSERT} $ 语句重写成一条包含多组 <code>VALUES</code> 的<strong>单条 <strong>$ \text{SQL} $</strong> 语句</strong>。</p>
+                <h1 id="JDBC-批量操作性能优化-rewriteBatchedStatements-特性总结"><a href="#JDBC-批量操作性能优化-rewriteBatchedStatements-特性总结" class="headerlink" title="JDBC 批量操作性能优化 rewriteBatchedStatements 特性总结"></a>JDBC 批量操作性能优化 rewriteBatchedStatements 特性总结</h1><p><code>rewriteBatchedStatements</code> 是 MySQL JDBC 驱动 (Connector&#x2F;J) 提供的一个<strong>非标准</strong>但极其重要的连接参数。它通过在应用层重写 SQL 语句，来显著减少网络往返和数据库端的 SQL 解析次数，从而大幅提高批量 DML 操作的性能。</p>
+<h3 id="一、核心作用原理：减少网络往返和-SQL-执行次数"><a href="#一、核心作用原理：减少网络往返和-SQL-执行次数" class="headerlink" title="一、核心作用原理：减少网络往返和 SQL 执行次数"></a>一、核心作用原理：减少网络往返和 SQL 执行次数</h3><p>在默认 JDBC 批处理中，即使使用了 <code>addBatch()</code> 和 <code>executeBatch()</code>，数据库服务器仍可能将 $ N $ 条语句视为 $ N $ 个独立的执行请求。启用 <code>rewriteBatchedStatements=true</code> 后，驱动程序会进行以下优化：</p>
+<h4 id="1-对-INSERT-语句的优化（效果最佳）"><a href="#1-对-INSERT-语句的优化（效果最佳）" class="headerlink" title="1. 对 INSERT 语句的优化（效果最佳）"></a>1. 对 INSERT 语句的优化（效果最佳）</h4><p>这是该特性的<strong>最大优势</strong>。驱动程序会将多条独立的 INSERT 语句重写成一条包含多组 <code>VALUES</code> 的<strong>单条 <strong>SQL</strong> 语句</strong>。</p>
 <table>
 <thead>
 <tr>
-<th align="left">客户端 $ \text{Batch} $ 代码（逻辑上）</th>
-<th align="left">开启重写后数据库实际接收的 $ \text{SQL} $</th>
+<th align="left">客户端 Batch 代码（逻辑上）</th>
+<th align="left">开启重写后数据库实际接收的 SQL</th>
 <th align="left">性能提升来源</th>
 </tr>
 </thead>
 <tbody><tr>
 <td align="left"><code>INSERT INTO T VALUES(?);</code> ($ \times N $)</td>
-<td align="left"><code>INSERT INTO T VALUES(?), (?), (?), ...;</code> (一条 $ \text{SQL} $ 语句)</td>
+<td align="left"><code>INSERT INTO T VALUES(?), (?), (?), ...;</code> (一条 SQL 语句)</td>
 <td align="left"><strong>极高。</strong> 数据库只需<strong>解析和执行一次</strong>，效率是默认批处理的数倍。</td>
 </tr>
 </tbody></table>
-<h4 id="2-对-text-UPDATE-和-text-DELETE-语句的优化"><a href="#2-对-text-UPDATE-和-text-DELETE-语句的优化" class="headerlink" title="2. 对 $ \text{UPDATE} $ 和 $ \text{DELETE} $ 语句的优化"></a>2. 对 $ \text{UPDATE} $ 和 $ \text{DELETE} $ 语句的优化</h4><p>驱动程序通常<strong>不会</strong>对 $ \text{UPDATE} $ 和 $ \text{DELETE} $ 语句进行多值语句重写。但它会通过以下方式优化：</p>
+<h4 id="2-对-UPDATE-和-DELETE-语句的优化"><a href="#2-对-UPDATE-和-DELETE-语句的优化" class="headerlink" title="2. 对 UPDATE 和 DELETE 语句的优化"></a>2. 对 UPDATE 和 DELETE 语句的优化</h4><p>驱动程序通常<strong>不会</strong>对 UPDATE 和 DELETE 语句进行多值语句重写。但它会通过以下方式优化：</p>
 <ul>
-<li><strong>多查询合并（</strong>$ \text{Multi-Query} $<strong>）：</strong> 驱动程序将 $ N $ 条 $ \text{UPDATE} $ 或 $ \text{DELETE} $ 语句用分号（<code>;</code>）连接起来，形成一个<strong>多查询字符串</strong>，在单次网络往返中发送给数据库。</li>
-<li><strong>性能提升：</strong> 提升主要来自将 $ N $ 次网络往返（$ \text{Round Trips} $）减少到 $ 1 $ 次（或少数几次）。数据库端仍然会依次执行 $ N $ 条语句。</li>
+<li><strong>多查询合并（<strong>Multi-Query</strong>）：</strong> 驱动程序将 $ N $ 条 UPDATE 或 DELETE 语句用分号（<code>;</code>）连接起来，形成一个<strong>多查询字符串</strong>，在单次网络往返中发送给数据库。</li>
+<li><strong>性能提升：</strong> 提升主要来自将 $ N $ 次网络往返（Round Trips）减少到 $ 1 $ 次（或少数几次）。数据库端仍然会依次执行 $ N $ 条语句。</li>
 </ul>
 <h3 id="二、使用注意事项和潜在风险"><a href="#二、使用注意事项和潜在风险" class="headerlink" title="二、使用注意事项和潜在风险"></a>二、使用注意事项和潜在风险</h3><table>
 <thead>
@@ -310,52 +310,52 @@
 </thead>
 <tbody><tr>
 <td align="left"><strong>推荐性</strong></td>
-<td align="left"><strong>强烈推荐</strong>在所有批量 $ \text{INSERT} $、$ \text{UPDATE} $ 和 $ \text{DELETE} $ 场景下使用。</td>
+<td align="left"><strong>强烈推荐</strong>在所有批量 INSERT、UPDATE 和 DELETE 场景下使用。</td>
 </tr>
 <tr>
 <td align="left"><strong>错误处理</strong></td>
-<td align="left">启用该特性后，批处理中的任何一条 $ \text{SQL} $ 失败，可能会导致<strong>后续的语句全部停止执行</strong>。 $ \text{executeBatch()} $ 返回的受影响行数数组可能不精确。</td>
+<td align="left">启用该特性后，批处理中的任何一条 SQL 失败，可能会导致<strong>后续的语句全部停止执行</strong>。 executeBatch() 返回的受影响行数数组可能不精确。</td>
 </tr>
 <tr>
 <td align="left"><code>Statement</code></td>
-<td align="left">虽然对 <code>Statement</code> 对象也有效，但可能会引入 $ \text{SQL} $ 注入风险。<strong>推荐搭配 <strong>$ \text{PreparedStatement} $</strong> 使用。</strong></td>
+<td align="left">虽然对 <code>Statement</code> 对象也有效，但可能会引入 SQL 注入风险。<strong>推荐搭配 <strong>PreparedStatement</strong> 使用。</strong></td>
 </tr>
 <tr>
 <td align="left"><strong>最佳实践</strong></td>
-<td align="left"><strong>对于批量 <strong>$ \text{DELETE} $</strong>：</strong> 手动将多个 $ \text{ID} $ 合并成一条带有 $ \text{IN} $ 子句的 $ \text{SQL} $ 语句，性能通常比依赖 <code>rewriteBatchedStatements</code> 更高。</td>
+<td align="left"><strong>对于批量 <strong>DELETE</strong>：</strong> 手动将多个 ID 合并成一条带有 IN 子句的 SQL 语句，性能通常比依赖 <code>rewriteBatchedStatements</code> 更高。</td>
 </tr>
 </tbody></table>
 <h3 id="三、主流数据库对批量操作的支持概览"><a href="#三、主流数据库对批量操作的支持概览" class="headerlink" title="三、主流数据库对批量操作的支持概览"></a>三、主流数据库对批量操作的支持概览</h3><table>
 <thead>
 <tr>
 <th align="left">数据库</th>
-<th align="left">$ \text{JDBC} $ 批量优化机制</th>
-<th align="left">是否有类似 $ \text{rewriteBatchedStatements} $ 的驱动参数</th>
+<th align="left">JDBC 批量优化机制</th>
+<th align="left">是否有类似 rewriteBatchedStatements 的驱动参数</th>
 </tr>
 </thead>
 <tbody><tr>
-<td align="left">$ \text{MySQL} $</td>
-<td align="left">$ \text{JDBC} $ 批处理 + $ \text{SQL} $ 重写</td>
+<td align="left">MySQL</td>
+<td align="left">JDBC 批处理 + SQL 重写</td>
 <td align="left"><strong>有：</strong> <code>rewriteBatchedStatements=true</code></td>
 </tr>
 <tr>
-<td align="left">$ \text{PostgreSQL} $</td>
-<td align="left">$ \text{JDBC} $ 批处理 + $ \text{Extended Query Protocol} $</td>
+<td align="left">PostgreSQL</td>
+<td align="left">JDBC 批处理 + Extended Query Protocol</td>
 <td align="left"><strong>有：</strong> <code>reWriteBatchedInserts=true</code></td>
 </tr>
 <tr>
-<td align="left">$ \text{Oracle} $</td>
-<td align="left">$ \text{JDBC} $ 批处理（标准）</td>
-<td align="left"><strong>无。</strong> 依赖 $ \text{JDBC} $ 标准批处理，驱动内部进行高效的数据传输。</td>
+<td align="left">Oracle</td>
+<td align="left">JDBC 批处理（标准）</td>
+<td align="left"><strong>无。</strong> 依赖 JDBC 标准批处理，驱动内部进行高效的数据传输。</td>
 </tr>
 <tr>
-<td align="left">$ \text{SQL Server} $</td>
-<td align="left">$ \text{JDBC} $ 批处理（标准）</td>
-<td align="left"><strong>无。</strong> 可使用 $ \text{Bulk Copy} $ 机制进行高效批量导入。</td>
+<td align="left">SQL Server</td>
+<td align="left">JDBC 批处理（标准）</td>
+<td align="left"><strong>无。</strong> 可使用 Bulk Copy 机制进行高效批量导入。</td>
 </tr>
 </tbody></table>
 <p><strong>总结：</strong></p>
-<p><code>rewriteBatchedStatements</code> 是一个强大的优化工具，尤其对于 $ \text{MySQL} $ 的批量 $ \text{INSERT} $ 性能提升是革命性的。在配置 $ \text{JDBC} $ 连接时，应当始终考虑开启此参数（或 $ \text{PostgreSQL} $ 的类似参数）来充分利用批处理带来的性能优势。</p>
+<p><code>rewriteBatchedStatements</code> 是一个强大的优化工具，尤其对于 MySQL 的批量 INSERT 性能提升是革命性的。在配置 JDBC 连接时，应当始终考虑开启此参数（或 PostgreSQL 的类似参数）来充分利用批处理带来的性能优势。</p>
 
                 
               </div>
@@ -404,7 +404,7 @@
   <div class="license-box my-3">
     <div class="license-title">
       <div>批量操作性能优化 rewriteBatchedStatements 特性</div>
-      <div>http://example.com/2022/03/28/database/批量操作性能优化：rewriteBatchedStatements 特性/</div>
+      <div>http://example.com/2025/10/25/database/批量操作性能优化：rewriteBatchedStatements 特性/</div>
     </div>
     <div class="license-meta">
       
@@ -416,7 +416,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2022年3月28日</div>
+          <div>2025年10月25日</div>
         </div>
       
       
@@ -448,18 +448,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2025/10/16/jooq/Gradle%20Kotlin%20%E9%85%8D%E7%BD%AE%20JOOQ%20%E4%BB%A3%E7%A0%81%E7%94%9F%E6%88%90/" title="使用 Gradle Kotlin DSL 配置 jOOQ 代码生成（Quarkus &amp; Kotlin）">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">使用 Gradle Kotlin DSL 配置 jOOQ 代码生成（Quarkus &amp; Kotlin）</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2019/10/03/docker/Docker-%E5%AE%89%E8%A3%85-Redis/" title="Docker 安装 Redis">
-                        <span class="hidden-mobile">Docker 安装 Redis</span>
+                      <a href="/2025/10/24/database/%E7%AE%80%E5%8D%95%E5%88%86%E6%9E%90%20SQL%20%E9%A2%84%E5%A4%84%E7%90%86%20Prepared%20Statements%20%E5%8E%9F%E7%90%86/" title="深度解析 SQL 预处理语句（Prepared Statements）：性能与生命周期">
+                        <span class="hidden-mobile">深度解析 SQL 预处理语句（Prepared Statements）：性能与生命周期</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
