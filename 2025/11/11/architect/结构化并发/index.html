@@ -1,0 +1,803 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Holy">
+  <meta name="keywords" content="Holy, Blog">
+  
+    <meta name="description" content="结构化并发：让并发编程重回简单与可靠什么是结构化并发？结构化并发是一种编程范式，它要求并发任务（如线程、协程）必须在明确的作用域内开始和结束，其中外部作用域的生命周期决定其内部所有并发子任务的生命周期。 核心思想：父作用域在所有子任务完成之前不会结束，任何子任务都不会超出父作用域的生命周期。 为什么需要结构化并发？传统并发编程的问题先看一个典型的非结构化并发示例： java 12345678910">
+<meta property="og:type" content="article">
+<meta property="og:title" content="结构化并发">
+<meta property="og:url" content="http://example.com/2025/11/11/architect/%E7%BB%93%E6%9E%84%E5%8C%96%E5%B9%B6%E5%8F%91/index.html">
+<meta property="og:site_name" content="Mozzie🤔🎉🚀✨⭐🌟💫">
+<meta property="og:description" content="结构化并发：让并发编程重回简单与可靠什么是结构化并发？结构化并发是一种编程范式，它要求并发任务（如线程、协程）必须在明确的作用域内开始和结束，其中外部作用域的生命周期决定其内部所有并发子任务的生命周期。 核心思想：父作用域在所有子任务完成之前不会结束，任何子任务都不会超出父作用域的生命周期。 为什么需要结构化并发？传统并发编程的问题先看一个典型的非结构化并发示例： java 12345678910">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-11-11T05:34:23.000Z">
+<meta property="article:modified_time" content="2025-11-12T09:41:12.516Z">
+<meta property="article:author" content="Holy">
+<meta property="article:tag" content="架构">
+<meta property="article:tag" content="结构化并发">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>结构化并发 - Mozzie🤔🎉🚀✨⭐🌟💫</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null},"woyaola":null,"cnzz":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Holy</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="结构化并发"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-11-11 13:34" pubdate>
+          2025年11月11日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.5k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          13 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">结构化并发</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="结构化并发：让并发编程重回简单与可靠"><a href="#结构化并发：让并发编程重回简单与可靠" class="headerlink" title="结构化并发：让并发编程重回简单与可靠"></a>结构化并发：让并发编程重回简单与可靠</h1><h2 id="什么是结构化并发？"><a href="#什么是结构化并发？" class="headerlink" title="什么是结构化并发？"></a>什么是结构化并发？</h2><p><strong>结构化并发</strong>是一种编程范式，它要求并发任务（如线程、协程）必须在明确的<strong>作用域</strong>内开始和结束，其中外部作用域的生命周期决定其内部所有并发子任务的生命周期。</p>
+<p><strong>核心思想</strong>：父作用域在所有子任务完成之前不会结束，任何子任务都不会超出父作用域的生命周期。</p>
+<h2 id="为什么需要结构化并发？"><a href="#为什么需要结构化并发？" class="headerlink" title="为什么需要结构化并发？"></a>为什么需要结构化并发？</h2><h3 id="传统并发编程的问题"><a href="#传统并发编程的问题" class="headerlink" title="传统并发编程的问题"></a>传统并发编程的问题</h3><p>先看一个典型的非结构化并发示例：</p>
+<p>java</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs scss"><span class="hljs-comment">// 问题代码：任务泄漏</span><br>void <span class="hljs-built_in">processOrder</span>() &#123;<br>    <span class="hljs-comment">// 启动后台线程发送通知</span><br>    new <span class="hljs-built_in">Thread</span>(() -&gt; &#123;<br>        <span class="hljs-built_in">sendEmailNotification</span>(); <span class="hljs-comment">// 可能执行很长时间</span><br>    &#125;)<span class="hljs-selector-class">.start</span>();<br>    <br>    <span class="hljs-built_in">processPayment</span>();<br>    <span class="hljs-built_in">updateInventory</span>();<br>    System<span class="hljs-selector-class">.out</span><span class="hljs-selector-class">.println</span>(&quot;Order processed!&quot;);<br>    <span class="hljs-comment">// 方法结束，但邮件线程可能仍在运行！</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="非结构化并发的主要缺陷"><a href="#非结构化并发的主要缺陷" class="headerlink" title="非结构化并发的主要缺陷"></a>非结构化并发的主要缺陷</h3><ol>
+<li><strong>资源泄漏</strong>：无人管理的线程持续消耗系统资源</li>
+<li><strong>任务泄漏</strong>：父任务结束后，子任务像”幽灵”一样继续运行</li>
+<li><strong>难以维护</strong>：无法清晰追踪系统中存在的并发任务</li>
+<li><strong>取消困难</strong>：需要手动管理线程中断，容易出错</li>
+<li><strong>调试困难</strong>：并发流程不清晰，问题难以定位</li>
+</ol>
+<h2 id="结构化并发如何解决问题？"><a href="#结构化并发如何解决问题？" class="headerlink" title="结构化并发如何解决问题？"></a>结构化并发如何解决问题？</h2><h3 id="核心机制"><a href="#核心机制" class="headerlink" title="核心机制"></a>核心机制</h3><p>结构化并发通过<strong>作用域绑定</strong>来解决这些问题：</p>
+<ul>
+<li><strong>父作用域</strong>作为管理者</li>
+<li><strong>子任务</strong>作为工作者</li>
+<li>严格的父子关系确保完整的生命周期管理</li>
+</ul>
+<h3 id="生动比喻：幼儿园老师"><a href="#生动比喻：幼儿园老师" class="headerlink" title="生动比喻：幼儿园老师"></a>生动比喻：幼儿园老师</h3><ul>
+<li><strong>非结构化并发</strong>：老师下班回家，孩子们在操场无人看管</li>
+<li><strong>结构化并发</strong>：老师全程监督，确保所有孩子集合后才一起离开</li>
+</ul>
+<h2 id="实际代码示例"><a href="#实际代码示例" class="headerlink" title="实际代码示例"></a>实际代码示例</h2><h3 id="Java-中的结构化并发（JDK-19-）"><a href="#Java-中的结构化并发（JDK-19-）" class="headerlink" title="Java 中的结构化并发（JDK 19+）"></a>Java 中的结构化并发（JDK 19+）</h3><p>java</p>
+<figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs livescript"><span class="hljs-keyword">import</span> java.util.concurrent.*;<br><br>public <span class="hljs-keyword">class</span> <span class="hljs-title class_">StructuredConcurrencyExample</span> &#123;<br>    <br>    public OrderResult processOrderStructured(Order order) <br>        throws ExecutionException, InterruptedException &#123;<br>        <br>        <span class="hljs-regexp">// 创建明确的作用域</span><br><span class="hljs-regexp">        try (var scope = new StructuredTaskScope.ShutdownOnFailure()) &#123;</span><br><span class="hljs-regexp">            </span><br><span class="hljs-regexp">            //</span> 在作用域内启动并发任务<br>            Future&lt;PaymentResult&gt; paymentFuture = <br>                scope.fork<span class="hljs-function"><span class="hljs-params">(() -&gt; processPayment(order))</span>;</span><br><span class="hljs-function">            <span class="hljs-title">Future</span>&lt;<span class="hljs-title">InventoryUpdate</span>&gt; <span class="hljs-title">inventoryFuture</span> = </span><br><span class="hljs-function">                <span class="hljs-title">scope</span>.<span class="hljs-title">fork</span><span class="hljs-params">(() -&gt; updateInventory(order))</span>;</span><br><span class="hljs-function">            <span class="hljs-title">Future</span>&lt;<span class="hljs-title">NotificationResult</span>&gt; <span class="hljs-title">notificationFuture</span> = </span><br><span class="hljs-function">                <span class="hljs-title">scope</span>.<span class="hljs-title">fork</span><span class="hljs-params">(() -&gt; sendNotification(order))</span>;</span><br><span class="hljs-function"></span><br><span class="hljs-function">            // 等待所有任务完成或任何一个失败</span><br><span class="hljs-function">            <span class="hljs-title">scope</span>.<span class="hljs-title">join</span><span class="hljs-params">()</span>;</span><br><span class="hljs-function">            <span class="hljs-title">scope</span>.<span class="hljs-title">throwIfFailed</span><span class="hljs-params">()</span>; // 如果有任务失败，抛出异常</span><br><span class="hljs-function"></span><br><span class="hljs-function">            // 安全地获取结果</span><br><span class="hljs-function">            <span class="hljs-title">PaymentResult</span> <span class="hljs-title">payment</span> = <span class="hljs-title">paymentFuture</span>.<span class="hljs-title">resultNow</span><span class="hljs-params">()</span>;</span><br><span class="hljs-function">            <span class="hljs-title">InventoryUpdate</span> <span class="hljs-title">inventory</span> = <span class="hljs-title">inventoryFuture</span>.<span class="hljs-title">resultNow</span><span class="hljs-params">()</span>;</span><br><span class="hljs-function">            <span class="hljs-title">NotificationResult</span> <span class="hljs-title">notification</span> = <span class="hljs-title">notificationFuture</span>.<span class="hljs-title">resultNow</span><span class="hljs-params">()</span>;</span><br><span class="hljs-function">            </span><br><span class="hljs-function">            <span class="hljs-title">return</span> <span class="hljs-title">new</span> <span class="hljs-title">OrderResult</span><span class="hljs-params">(payment, inventory, notification)</span>;</span><br><span class="hljs-function">            </span><br><span class="hljs-function">        &#125; // 作用域结束，自动确保所有任务完成</span><br><span class="hljs-function">    &#125;</span><br><span class="hljs-function">&#125;</span><br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="Kotlin-协程示例"><a href="#Kotlin-协程示例" class="headerlink" title="Kotlin 协程示例"></a>Kotlin 协程示例</h3><p>kotlin</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs stylus">suspend fun <span class="hljs-built_in">processOrder</span>(<span class="hljs-attribute">order</span>: Order): OrderResult = coroutineScope &#123;<br>    <span class="hljs-comment">// 所有并发任务都在这个作用域内</span><br>    val paymentDeferred = async &#123; <span class="hljs-built_in">processPayment</span>(<span class="hljs-attribute">order</span>) &#125;<br>    val inventoryDeferred = async &#123; <span class="hljs-built_in">updateInventory</span>(<span class="hljs-attribute">order</span>) &#125;<br>    val notificationDeferred = async &#123; <span class="hljs-built_in">sendNotification</span>(<span class="hljs-attribute">order</span>) &#125;<br><br>    <span class="hljs-comment">// 自动等待所有任务完成</span><br>    <span class="hljs-built_in">OrderResult</span>(<br>        payment = paymentDeferred<span class="hljs-selector-class">.await</span>(),<br>        inventory = inventoryDeferred<span class="hljs-selector-class">.await</span>(),<br>        notification = notificationDeferred<span class="hljs-selector-class">.await</span>()<br>    )<br>    <span class="hljs-comment">// 作用域结束，所有子协程自动结束</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="关键特性与优势"><a href="#关键特性与优势" class="headerlink" title="关键特性与优势"></a>关键特性与优势</h2><h3 id="1-自动生命周期管理"><a href="#1-自动生命周期管理" class="headerlink" title="1. 自动生命周期管理"></a>1. 自动生命周期管理</h3><p>java</p>
+<figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs livescript"><span class="hljs-keyword">try</span> (<span class="hljs-keyword">var</span> scope = <span class="hljs-keyword">new</span> StructuredTaskScope&lt;&gt;()) &#123;<br>    Future&lt;<span class="hljs-built_in">String</span>&gt; task1 = scope.fork<span class="hljs-function"><span class="hljs-params">(() -&gt; doWork1())</span>;</span><br><span class="hljs-function">    <span class="hljs-title">Future</span>&lt;<span class="hljs-title">String</span>&gt; <span class="hljs-title">task2</span> = <span class="hljs-title">scope</span>.<span class="hljs-title">fork</span><span class="hljs-params">(() -&gt; doWork2())</span>;</span><br><span class="hljs-function">    </span><br><span class="hljs-function">    <span class="hljs-title">scope</span>.<span class="hljs-title">join</span><span class="hljs-params">()</span>;</span><br><span class="hljs-function">    // 明确的任务边界 - 不会有意外的后台任务</span><br><span class="hljs-function">&#125;</span><br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="2-可靠的错误处理"><a href="#2-可靠的错误处理" class="headerlink" title="2. 可靠的错误处理"></a>2. 可靠的错误处理</h3><ul>
+<li><strong>自动传播</strong>：子任务失败自动向上传播</li>
+<li><strong>协同取消</strong>：一个任务失败，自动取消相关任务</li>
+<li><strong>统一处理</strong>：集中的异常处理点</li>
+</ul>
+<h3 id="3-资源安全"><a href="#3-资源安全" class="headerlink" title="3. 资源安全"></a>3. 资源安全</h3><p>java</p>
+<figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs haxe"><span class="hljs-comment">// 使用 try-with-resources 确保资源清理</span><br><span class="hljs-keyword">try</span> (<span class="hljs-keyword">var</span> scope = <span class="hljs-keyword">new</span> <span class="hljs-type">StructuredTaskScope</span>.ShutdownOnFailure()) &#123;<br>    <span class="hljs-comment">// 并发任务...</span><br>&#125; <span class="hljs-comment">// 自动清理所有资源</span><br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="4-可观测性"><a href="#4-可观测性" class="headerlink" title="4. 可观测性"></a>4. 可观测性</h3><ul>
+<li>清晰的调用链路</li>
+<li>明确的任务关系</li>
+<li>简化的监控和调试</li>
+</ul>
+<h2 id="不同语言的实现"><a href="#不同语言的实现" class="headerlink" title="不同语言的实现"></a>不同语言的实现</h2><h3 id="Java"><a href="#Java" class="headerlink" title="Java"></a>Java</h3><ul>
+<li><strong>机制</strong>：<code>StructuredTaskScope</code> (JDK 19+)</li>
+<li><strong>特点</strong>：显式作用域管理，强类型</li>
+<li><strong>适用</strong>：服务端应用，大型系统</li>
+</ul>
+<h3 id="Kotlin"><a href="#Kotlin" class="headerlink" title="Kotlin"></a>Kotlin</h3><ul>
+<li><strong>机制</strong>：协程 + <code>coroutineScope</code> 构建器</li>
+<li><strong>特点</strong>：语言级原生支持，语法简洁</li>
+<li><strong>适用</strong>：Android，全栈开发</li>
+</ul>
+<h3 id="Go"><a href="#Go" class="headerlink" title="Go"></a>Go</h3><ul>
+<li><strong>机制</strong>：goroutine + <code>context</code> + <code>sync.WaitGroup</code></li>
+<li><strong>特点</strong>：轻量级，需手动实现模式</li>
+<li><strong>适用</strong>：网络服务，CLI工具</li>
+</ul>
+<h3 id="Swift"><a href="#Swift" class="headerlink" title="Swift"></a>Swift</h3><ul>
+<li><strong>机制</strong>：Async&#x2F;Await + <code>TaskGroup</code></li>
+<li><strong>特点</strong>：Apple生态系统，类型安全</li>
+<li><strong>适用</strong>：iOS&#x2F;macOS应用</li>
+</ul>
+<h2 id="最佳实践"><a href="#最佳实践" class="headerlink" title="最佳实践"></a>最佳实践</h2><h3 id="1-合理设计作用域"><a href="#1-合理设计作用域" class="headerlink" title="1. 合理设计作用域"></a>1. 合理设计作用域</h3><p>java</p>
+<figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs livescript"><span class="hljs-regexp">// 根据业务逻辑划分作用域</span><br><span class="hljs-regexp">public class OrderService &#123;</span><br><span class="hljs-regexp">    public CompletableFuture&lt;OrderResult&gt; processComplexOrder(Order order) &#123;</span><br><span class="hljs-regexp">        try (var outerScope = new StructuredTaskScope.ShutdownOnFailure()) &#123;</span><br><span class="hljs-regexp">            </span><br><span class="hljs-regexp">            //</span> 第一阶段：验证和基础处理<br>            <span class="hljs-keyword">try</span> (<span class="hljs-keyword">var</span> validationScope = <span class="hljs-keyword">new</span> StructuredTaskScope&lt;&gt;()) &#123;<br>                Future&lt;<span class="hljs-built_in">Boolean</span>&gt; stockCheck = validationScope.fork<span class="hljs-function"><span class="hljs-params">(() -&gt; checkStock(order))</span>;</span><br><span class="hljs-function">                <span class="hljs-title">Future</span>&lt;<span class="hljs-title">Boolean</span>&gt; <span class="hljs-title">fraudCheck</span> = <span class="hljs-title">validationScope</span>.<span class="hljs-title">fork</span><span class="hljs-params">(() -&gt; fraudDetection(order))</span>;</span><br><span class="hljs-function">                <span class="hljs-title">validationScope</span>.<span class="hljs-title">join</span><span class="hljs-params">()</span>;</span><br><span class="hljs-function">            &#125;</span><br><span class="hljs-function">            </span><br><span class="hljs-function">            // 第二阶段：执行核心业务</span><br><span class="hljs-function">            <span class="hljs-title">Future</span>&lt;<span class="hljs-title">Payment</span>&gt; <span class="hljs-title">payment</span> = <span class="hljs-title">outerScope</span>.<span class="hljs-title">fork</span><span class="hljs-params">(() -&gt; processPayment(order))</span>;</span><br><span class="hljs-function">            <span class="hljs-title">Future</span>&lt;<span class="hljs-title">Shipping</span>&gt; <span class="hljs-title">shipping</span> = <span class="hljs-title">outerScope</span>.<span class="hljs-title">fork</span><span class="hljs-params">(() -&gt; arrangeShipping(order))</span>;</span><br><span class="hljs-function">            </span><br><span class="hljs-function">            <span class="hljs-title">outerScope</span>.<span class="hljs-title">join</span><span class="hljs-params">()</span>;</span><br><span class="hljs-function">            <span class="hljs-title">return</span> <span class="hljs-title">CompletableFuture</span>.<span class="hljs-title">completedFuture</span><span class="hljs-params">(combineResults(payment, shipping))</span>;</span><br><span class="hljs-function">        &#125;</span><br><span class="hljs-function">    &#125;</span><br><span class="hljs-function">&#125;</span><br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="2-合理的超时和取消"><a href="#2-合理的超时和取消" class="headerlink" title="2. 合理的超时和取消"></a>2. 合理的超时和取消</h3><p>java</p>
+<figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs livescript"><span class="hljs-keyword">try</span> (<span class="hljs-keyword">var</span> scope = <span class="hljs-keyword">new</span> StructuredTaskScope.ShutdownOnFailure()) &#123;<br>    Future&lt;<span class="hljs-built_in">String</span>&gt; result = scope.fork<span class="hljs-function"><span class="hljs-params">(() -&gt; callExternalService())</span>;</span><br><span class="hljs-function">    </span><br><span class="hljs-function">    // 设置超时</span><br><span class="hljs-function">    <span class="hljs-title">scope</span>.<span class="hljs-title">joinUntil</span><span class="hljs-params">(Instant.now().plusSeconds(<span class="hljs-number">30</span>))</span>;</span><br><span class="hljs-function">    </span><br><span class="hljs-function">    <span class="hljs-title">if</span> <span class="hljs-params">(!result.isDone())</span> &#123;</span><br><span class="hljs-function">        <span class="hljs-title">scope</span>.<span class="hljs-title">shutdown</span><span class="hljs-params">()</span>; // 触发取消</span><br><span class="hljs-function">        <span class="hljs-title">throw</span> <span class="hljs-title">new</span> <span class="hljs-title">TimeoutException</span><span class="hljs-params">(<span class="hljs-string">&quot;Operation timed out&quot;</span>)</span>;</span><br><span class="hljs-function">    &#125;</span><br><span class="hljs-function">&#125;</span><br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="3-错误处理策略"><a href="#3-错误处理策略" class="headerlink" title="3. 错误处理策略"></a>3. 错误处理策略</h3><ul>
+<li><strong>快速失败</strong>：使用 <code>ShutdownOnFailure</code></li>
+<li><strong>首个成功</strong>：使用 <code>ShutdownOnSuccess</code></li>
+<li><strong>自定义策略</strong>：根据业务需求定制</li>
+</ul>
+<h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><h3 id="1-Web-请求处理"><a href="#1-Web-请求处理" class="headerlink" title="1. Web 请求处理"></a>1. Web 请求处理</h3><p>java</p>
+<figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs livescript">@RestController<br>public <span class="hljs-keyword">class</span> <span class="hljs-title class_">OrderController</span> &#123;<br>    <br>    @PostMapping(<span class="hljs-string">&quot;/orders&quot;</span>)<br>    public ResponseEntity&lt;OrderResponse&gt; createOrder(@RequestBody OrderRequest request) &#123;<br>        <span class="hljs-keyword">try</span> (<span class="hljs-keyword">var</span> scope = <span class="hljs-keyword">new</span> StructuredTaskScope.ShutdownOnFailure()) &#123;<br>            Future&lt;ValidationResult&gt; validation = scope.fork<span class="hljs-function"><span class="hljs-params">(() -&gt; validateRequest(request))</span>;</span><br><span class="hljs-function">            <span class="hljs-title">Future</span>&lt;<span class="hljs-title">PriceCalculation</span>&gt; <span class="hljs-title">pricing</span> = <span class="hljs-title">scope</span>.<span class="hljs-title">fork</span><span class="hljs-params">(() -&gt; calculatePrice(request))</span>;</span><br><span class="hljs-function">            <span class="hljs-title">Future</span>&lt;<span class="hljs-title">InventoryCheck</span>&gt; <span class="hljs-title">inventory</span> = <span class="hljs-title">scope</span>.<span class="hljs-title">fork</span><span class="hljs-params">(() -&gt; checkInventory(request))</span>;</span><br><span class="hljs-function">            </span><br><span class="hljs-function">            <span class="hljs-title">scope</span>.<span class="hljs-title">join</span><span class="hljs-params">()</span>;</span><br><span class="hljs-function">            <span class="hljs-title">scope</span>.<span class="hljs-title">throwIfFailed</span><span class="hljs-params">()</span>;</span><br><span class="hljs-function">            </span><br><span class="hljs-function">            <span class="hljs-title">return</span> <span class="hljs-title">ResponseEntity</span>.<span class="hljs-title">ok</span><span class="hljs-params">(buildResponse(validation, pricing, inventory))</span>;</span><br><span class="hljs-function">        &#125; <span class="hljs-title">catch</span> <span class="hljs-params">(Exception e)</span> &#123;</span><br><span class="hljs-function">            <span class="hljs-title">return</span> <span class="hljs-title">ResponseEntity</span>.<span class="hljs-title">badRequest</span><span class="hljs-params">()</span>.<span class="hljs-title">build</span><span class="hljs-params">()</span>;</span><br><span class="hljs-function">        &#125;</span><br><span class="hljs-function">    &#125;</span><br><span class="hljs-function">&#125;</span><br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="2-批量数据处理"><a href="#2-批量数据处理" class="headerlink" title="2. 批量数据处理"></a>2. 批量数据处理</h3><p>java</p>
+<figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs livescript">public <span class="hljs-keyword">class</span> <span class="hljs-title class_">BatchProcessor</span> &#123;<br>    public <span class="hljs-literal">void</span> processBatch(List&lt;DataItem&gt; items) &#123;<br>        <span class="hljs-keyword">try</span> (<span class="hljs-keyword">var</span> scope = <span class="hljs-keyword">new</span> StructuredTaskScope.ShutdownOnFailure()) &#123;<br>            <br>            List&lt;Future&lt;ProcessResult&gt;&gt; futures = items.stream()<br>                .<span class="hljs-keyword">map</span><span class="hljs-function"><span class="hljs-params">(item -&gt; scope.fork(() -&gt; processItem(item)))</span></span><br><span class="hljs-function">                .<span class="hljs-title">collect</span><span class="hljs-params">(Collectors.toList())</span>;</span><br><span class="hljs-function">            </span><br><span class="hljs-function">            <span class="hljs-title">scope</span>.<span class="hljs-title">join</span><span class="hljs-params">()</span>;</span><br><span class="hljs-function">            </span><br><span class="hljs-function">            <span class="hljs-title">List</span>&lt;<span class="hljs-title">ProcessResult</span>&gt; <span class="hljs-title">results</span> = <span class="hljs-title">futures</span>.<span class="hljs-title">stream</span><span class="hljs-params">()</span></span><br><span class="hljs-function">                .<span class="hljs-title">map</span><span class="hljs-params">(Future::resultNow)</span></span><br><span class="hljs-function">                .<span class="hljs-title">collect</span><span class="hljs-params">(Collectors.toList())</span>;</span><br><span class="hljs-function">                </span><br><span class="hljs-function">            // 处理结果...</span><br><span class="hljs-function">        &#125;</span><br><span class="hljs-function">    &#125;</span><br><span class="hljs-function">&#125;</span><br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>结构化并发通过简单的原则——<strong>将并发任务的生命周期与代码作用域绑定</strong>，解决了传统并发编程中的根本问题：</p>
+<h3 id="带来的变革"><a href="#带来的变革" class="headerlink" title="带来的变革"></a>带来的变革</h3><ul>
+<li>✅ <strong>消除任务泄漏</strong> - 没有意外的后台任务</li>
+<li>✅ <strong>自动化资源管理</strong> - 无需手动清理</li>
+<li>✅ <strong>简化错误处理</strong> - 统一的异常传播机制</li>
+<li>✅ <strong>提升代码可读性</strong> - 清晰的并发结构</li>
+<li>✅ <strong>增强系统可靠性</strong> - 确定性的行为</li>
+</ul>
+<h3 id="核心价值"><a href="#核心价值" class="headerlink" title="核心价值"></a>核心价值</h3><p>结构化并发让并发编程重新变得<strong>简单</strong>和<strong>可靠</strong>，使开发者能够像编写顺序代码一样自然地编写并发代码，同时享受并发带来的性能优势。</p>
+<blockquote>
+<p><strong>关键洞见</strong>：通过约束带来自由。结构化的约束反而让复杂的并发编程变得简单可控。</p>
+</blockquote>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%9E%B6%E6%9E%84/" class="category-chain-item">架构</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%9E%B6%E6%9E%84/" class="print-no-link">#架构</a>
+      
+        <a href="/tags/%E7%BB%93%E6%9E%84%E5%8C%96%E5%B9%B6%E5%8F%91/" class="print-no-link">#结构化并发</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>结构化并发</div>
+      <div>http://example.com/2025/11/11/architect/结构化并发/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Holy</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年11月11日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2025/11/12/architect/%E7%BB%93%E6%9E%84%E5%8C%96%E5%B9%B6%E5%8F%91%E4%B8%8E%E5%93%8D%E5%BA%94%E5%BC%8F%E5%B9%B6%E5%8F%91/" title="结构化并发与响应式并发">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">结构化并发与响应式并发</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/11/04/architect/%E5%93%8D%E5%BA%94%E5%BC%8F%E6%A0%B8%E5%BF%83-%E5%91%BD%E4%BB%A4%E5%BC%8F%E8%B0%83%E7%94%A8/" title="响应式核心，命令式调用">
+                        <span class="hidden-mobile">响应式核心，命令式调用</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      粤ICP备18053694号
+    </a>
+  </span>
+  
+</div>
+
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

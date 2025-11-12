@@ -1,0 +1,837 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Holy">
+  <meta name="keywords" content="Holy, Blog">
+  
+    <meta name="description" content="结构化并发与响应式并发：现代并发编程的两种核心范式 本文深入探讨了“结构化并发”与“响应式操作库的并发”在思想、实现与适用场景上的核心区别，旨在帮助开发者理解并选择合适的并发模型。  引言在现代软件开发中，高效、安全地处理并发任务是提升应用性能与用户体验的关键。随着技术演进，两种主流的并发范式逐渐脱颖而出：结构化并发 与 响应式操作库的并发。它们源于不同的设计哲学，解决了不同层面的核心问题。理解它">
+<meta property="og:type" content="article">
+<meta property="og:title" content="结构化并发与响应式并发">
+<meta property="og:url" content="http://example.com/2025/11/12/architect/%E7%BB%93%E6%9E%84%E5%8C%96%E5%B9%B6%E5%8F%91%E4%B8%8E%E5%93%8D%E5%BA%94%E5%BC%8F%E5%B9%B6%E5%8F%91/index.html">
+<meta property="og:site_name" content="Mozzie🤔🎉🚀✨⭐🌟💫">
+<meta property="og:description" content="结构化并发与响应式并发：现代并发编程的两种核心范式 本文深入探讨了“结构化并发”与“响应式操作库的并发”在思想、实现与适用场景上的核心区别，旨在帮助开发者理解并选择合适的并发模型。  引言在现代软件开发中，高效、安全地处理并发任务是提升应用性能与用户体验的关键。随着技术演进，两种主流的并发范式逐渐脱颖而出：结构化并发 与 响应式操作库的并发。它们源于不同的设计哲学，解决了不同层面的核心问题。理解它">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-11-12T07:43:34.000Z">
+<meta property="article:modified_time" content="2025-11-12T09:42:27.553Z">
+<meta property="article:author" content="Holy">
+<meta property="article:tag" content="响应式并发">
+<meta property="article:tag" content="架构">
+<meta property="article:tag" content="结构化并发">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>结构化并发与响应式并发 - Mozzie🤔🎉🚀✨⭐🌟💫</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null},"woyaola":null,"cnzz":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Holy</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="结构化并发与响应式并发"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-11-12 15:43" pubdate>
+          2025年11月12日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          18 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">结构化并发与响应式并发</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="结构化并发与响应式并发：现代并发编程的两种核心范式"><a href="#结构化并发与响应式并发：现代并发编程的两种核心范式" class="headerlink" title="结构化并发与响应式并发：现代并发编程的两种核心范式"></a>结构化并发与响应式并发：现代并发编程的两种核心范式</h1><blockquote>
+<p>本文深入探讨了“结构化并发”与“响应式操作库的并发”在思想、实现与适用场景上的核心区别，旨在帮助开发者理解并选择合适的并发模型。</p>
+</blockquote>
+<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>在现代软件开发中，高效、安全地处理并发任务是提升应用性能与用户体验的关键。随着技术演进，两种主流的并发范式逐渐脱颖而出：<strong>结构化并发</strong> 与 <strong>响应式操作库的并发</strong>。它们源于不同的设计哲学，解决了不同层面的核心问题。理解它们的区别，对于架构设计和代码编写至关重要。</p>
+<h2 id="核心思想类比"><a href="#核心思想类比" class="headerlink" title="核心思想类比"></a>核心思想类比</h2><p>在深入技术细节前，我们可以通过两个生动的比喻来建立直觉理解。</p>
+<h3 id="结构化并发：严谨的团队项目"><a href="#结构化并发：严谨的团队项目" class="headerlink" title="结构化并发：严谨的团队项目"></a>结构化并发：严谨的团队项目</h3><p>想象你在组织一个严谨的团队项目：</p>
+<ul>
+<li>你有一个明确的总任务（<strong>父作用域</strong>）。</li>
+<li>你将总任务分解为几个子任务（<strong>子协程&#x2F;线程</strong>）。</li>
+<li><strong>关键规则是</strong>：所有子任务的生命周期都必须严格限定在总任务的生命周期之内。</li>
+<li>如果总任务被取消，所有子任务必须立即停止。</li>
+<li>如果某个子任务失败，它可能会导致整个总任务失败，并连带取消所有其他子任务。</li>
+<li>你必须等待所有子任务都完成后，总任务才算最终完成。</li>
+</ul>
+<p><strong>核心特质</strong>：<strong>不会有无家可归的“孤儿任务”</strong>，管理严格，权责清晰。</p>
+<h3 id="响应式并发：高度自动化的流水线"><a href="#响应式并发：高度自动化的流水线" class="headerlink" title="响应式并发：高度自动化的流水线"></a>响应式并发：高度自动化的流水线</h3><p>想象一条高度自动化的工业流水线：</p>
+<ul>
+<li>数据如同零件，在流水线上流动。</li>
+<li>每个工作站（<strong>操作符</strong>）对流经的数据进行处理、转换、组合或过滤。</li>
+<li>并发是通过将工作分发到不同的并行流水线（<strong>线程</strong>）来实现的。</li>
+<li>你关注的是数据流的变换规则和组合方式，以及当上游生产速度超过下游处理能力时的<strong>背压</strong>管理。</li>
+</ul>
+<p><strong>核心特质</strong>：关注<strong>数据流</strong>本身，而非单个任务的生死。</p>
+<hr>
+<h2 id="技术实现深度对比"><a href="#技术实现深度对比" class="headerlink" title="技术实现深度对比"></a>技术实现深度对比</h2><table>
+<thead>
+<tr>
+<th align="left">维度</th>
+<th align="left">结构化并发</th>
+<th align="left">响应式操作库的并发</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>核心范式</strong></td>
+<td align="left"><strong>命令式 &#x2F; 过程式</strong></td>
+<td align="left"><strong>声明式 &#x2F; 函数式</strong></td>
+</tr>
+<tr>
+<td align="left"><strong>关注点</strong></td>
+<td align="left"><strong>任务的生命周期和资源管理</strong>，防止任务泄漏。</td>
+<td align="left"><strong>数据流和变换</strong>，组合异步操作。</td>
+</tr>
+<tr>
+<td align="left"><strong>并发单位</strong></td>
+<td align="left"><strong>协程 &#x2F; 轻量级线程</strong> (如 <code>Job</code>, <code>StructuredTaskScope</code>)</td>
+<td align="left"><strong>数据流 &#x2F; 发布者</strong> (如 <code>Flux</code>, <code>Observable</code>, <code>Flow</code>)</td>
+</tr>
+<tr>
+<td align="left"><strong>并发控制</strong></td>
+<td align="left">通过 <strong>父作用域</strong> 的取消信号自动传播和协作。</td>
+<td align="left">通过 <strong>操作符</strong> (如 <code>subscribeOn</code>, <code>publishOn</code>) 指定执行上下文。</td>
+</tr>
+<tr>
+<td align="left"><strong>错误处理</strong></td>
+<td align="left"><strong>使用异常机制</strong>。未捕获异常会取消父作用域及所有兄弟任务。</td>
+<td align="left"><strong>错误作为数据流事件</strong>。通过 <code>onError</code> 信号在流中传递和处理。</td>
+</tr>
+<tr>
+<td align="left"><strong>取消机制</strong></td>
+<td align="left"><strong>协作式取消</strong>。任务定期检查取消标志或调用可取消的挂起函数。</td>
+<td align="left"><strong>通过取消订阅</strong>。调用 <code>dispose()</code> 或 <code>cancel()</code> 来中断流的处理。</td>
+</tr>
+<tr>
+<td align="left"><strong>资源安全</strong></td>
+<td align="left"><strong>核心优势</strong>。利用作用域块，确保退出时自动释放资源（如 Kotlin 的 <code>use</code>）。</td>
+<td align="left"><strong>需显式管理</strong>。通过 <code>doFinally</code> 等操作符处理，易因忘记取消订阅而泄漏。</td>
+</tr>
+<tr>
+<td align="left"><strong>典型代表</strong></td>
+<td align="left">Kotlin Coroutines, Java 21+ <code>StructuredTaskScope</code></td>
+<td align="left">Project Reactor, RxJava, Kotlin Flow</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="代码实战：对比两种实现"><a href="#代码实战：对比两种实现" class="headerlink" title="代码实战：对比两种实现"></a>代码实战：对比两种实现</h2><p>假设我们有一个需求：<strong>并发地从两个网络源获取数据，然后将结果合并。如果任何一个请求失败，整个操作应立即失败并取消另一个仍在进行的请求。</strong></p>
+<h3 id="1-结构化并发实现（Kotlin-Coroutines）"><a href="#1-结构化并发实现（Kotlin-Coroutines）" class="headerlink" title="1. 结构化并发实现（Kotlin Coroutines）"></a>1. 结构化并发实现（Kotlin Coroutines）</h3><p>kotlin</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">suspend</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">fetchUserData</span><span class="hljs-params">()</span></span>: UserData = coroutineScope &#123;<br>    <span class="hljs-comment">// 在同一个结构化作用域内启动两个子协程</span><br>    <span class="hljs-keyword">val</span> userProfileAsync = async &#123; api.fetchUserProfile() &#125;<br>    <span class="hljs-keyword">val</span> userPostsAsync = async &#123; api.fetchUserPosts() &#125;<br><br>    <span class="hljs-comment">// 等待结果，任何异常都会向外传播</span><br>    <span class="hljs-keyword">try</span> &#123;<br>        UserData(<br>            profile = userProfileAsync.await(), <span class="hljs-comment">// 若此处失败，userPostsAsync 会被自动取消</span><br>            posts = userPostsAsync.await()<br>        )<br>    &#125; <span class="hljs-keyword">catch</span> (e: Exception) &#123;<br>        <span class="hljs-comment">// 无需手动取消，结构化并发已自动处理</span><br>        Log.e(<span class="hljs-string">&quot;Fetch failed&quot;</span>, e)<br>        <span class="hljs-keyword">throw</span> e<br>    &#125;<br>    <span class="hljs-comment">// 当作用域退出时，所有子协程必然已完成/取消，无资源泄漏。</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<p><strong>实现解析</strong>：</p>
+<ul>
+<li><code>coroutineScope</code> 构建器创建了一个结构化的并发作用域。</li>
+<li>两个 <code>async</code> 启动的子任务的生命周期严格绑定于此作用域。</li>
+<li>任一 <code>await()</code> 调用抛出异常，另一个并发任务会<strong>自动被取消</strong>。</li>
+<li>代码风格是线性的、命令式的，非常符合人类的直觉思维。</li>
+</ul>
+<h3 id="2-响应式操作库实现（Project-Reactor）"><a href="#2-响应式操作库实现（Project-Reactor）" class="headerlink" title="2. 响应式操作库实现（Project Reactor）"></a>2. 响应式操作库实现（Project Reactor）</h3><p>java</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">public</span> Mono&lt;UserData&gt; <span class="hljs-title">fetchUserData</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-comment">// 定义两个异步数据源，并指定其执行线程</span><br>    Mono&lt;UserProfile&gt; profileMono = api.<span class="hljs-built_in">fetchUserProfile</span>().<span class="hljs-built_in">subscribeOn</span>(Schedulers.<span class="hljs-built_in">parallel</span>());<br>    Mono&lt;List&lt;Post&gt;&gt; postsMono = api.<span class="hljs-built_in">fetchUserPosts</span>().<span class="hljs-built_in">subscribeOn</span>(Schedulers.<span class="hljs-built_in">parallel</span>());<br><br>    <span class="hljs-comment">// 使用 zip 操作符组合这两个源</span><br>    <span class="hljs-keyword">return</span> Mono.<span class="hljs-built_in">zip</span>(profileMono, postsMono)<br>               .<span class="hljs-built_in">map</span>(tuple -&gt; <span class="hljs-keyword">new</span> <span class="hljs-built_in">UserData</span>(tuple.<span class="hljs-built_in">getT1</span>(), tuple.<span class="hljs-built_in">getT2</span>())) <span class="hljs-comment">// 转换结果</span><br>               .<span class="hljs-built_in">doOnCancel</span>(() -&gt; Log.<span class="hljs-built_in">d</span>(<span class="hljs-string">&quot;Operation cancelled&quot;</span>)); <span class="hljs-comment">// 可选的取消回调</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<p><strong>实现解析</strong>：</p>
+<ul>
+<li>定义了两个 <code>Mono</code>（代表产生单个结果的异步序列）。</li>
+<li>使用 <code>subscribeOn</code> 操作符来指定它们在各自的线程上并发执行。</li>
+<li><code>zip</code> 操作符是核心，它订阅所有输入的 <code>Mono</code>，等待它们都完成后，将结果组合成一个元组。如果其中任何一个 <code>Mono</code> 发出错误信号，<code>zip</code> 会<strong>自动取消对其余 <code>Mono</code> 的订阅</strong>。</li>
+<li>代码风格是声明式的、链式的，通过组合操作符来定义数据流的处理管道。</li>
+</ul>
+<hr>
+<h2 id="范式融合与选型建议"><a href="#范式融合与选型建议" class="headerlink" title="范式融合与选型建议"></a>范式融合与选型建议</h2><h3 id="融合趋势：Kotlin-Flow"><a href="#融合趋势：Kotlin-Flow" class="headerlink" title="融合趋势：Kotlin Flow"></a>融合趋势：Kotlin Flow</h3><p>值得注意的是，这两种范式并非水火不容，而是可以优雅地融合。<strong>Kotlin Flow</strong> 就是一个典范：</p>
+<p>kotlin</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-comment">// 定义一个响应式流</span><br><span class="hljs-keyword">val</span> userDataFlow: Flow&lt;UserData&gt; = flow &#123;<br>    <span class="hljs-comment">// ...</span><br>&#125;.map &#123; ... &#125; <span class="hljs-comment">// 响应式变换</span><br>.flowOn(Dispatchers.IO) <span class="hljs-comment">// 在IO线程上执行上游操作</span><br><br><span class="hljs-comment">// 在结构化并发作用域中收集流</span><br><span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">onUserAction</span><span class="hljs-params">()</span></span> &#123;<br>    viewModelScope.launch &#123; <span class="hljs-comment">// 结构化并发</span><br>        userDataFlow.collect &#123; userData -&gt; <span class="hljs-comment">// 响应式收集</span><br>            updateUi(userData)<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>在这个例子中：</p>
+<ul>
+<li><code>Flow</code> 提供了丰富的响应式操作符，用于处理数据流。</li>
+<li><code>viewModelScope</code> 是一个结构化并发作用域，当 ViewModel 清除时，它会自动取消其内部启动的所有协程，包括正在收集流的这个协程。</li>
+<li>这样就实现了<strong>用响应式风格声明数据流，用结构化并发管理生命周期</strong>，兼具两者的优势。</li>
+</ul>
+<h3 id="如何选择？"><a href="#如何选择？" class="headerlink" title="如何选择？"></a>如何选择？</h3><table>
+<thead>
+<tr>
+<th align="left">场景</th>
+<th align="left">推荐范式</th>
+<th align="left">理由</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>UI生命周期相关的后台任务</strong></td>
+<td align="left"><strong>结构化并发</strong></td>
+<td align="left">与UI组件（Activity, ViewModel）的生命周期天然绑定，避免内存泄漏和无效更新。</td>
+</tr>
+<tr>
+<td align="left"><strong>实现一个可取消的复杂业务逻辑</strong></td>
+<td align="left"><strong>结构化并发</strong></td>
+<td align="left">任务的组织、依赖和取消逻辑清晰直观，资源安全有保障。</td>
+</tr>
+<tr>
+<td align="left"><strong>处理事件流（如点击去抖）</strong></td>
+<td align="left"><strong>响应式并发</strong></td>
+<td align="left">提供了 <code>debounce</code>, <code>filter</code>, <code>map</code> 等专用操作符，处理此类问题得心应手。</td>
+</tr>
+<tr>
+<td align="left"><strong>构建高吞吐、背压敏感的数据管道</strong></td>
+<td align="left"><strong>响应式并发</strong></td>
+<td align="left">强大的背压支持和流组合能力，是构建数据管道的首选。</td>
+</tr>
+<tr>
+<td align="left"><strong>服务端并发请求处理</strong></td>
+<td align="left"><strong>两者皆可，常结合使用</strong></td>
+<td align="left">可用结构化并发管理请求上下文，内部使用响应式流处理数据。</td>
+</tr>
+</tbody></table>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li><strong>结构化并发</strong> 是一种 <strong>“任务生命周期”的管理范式</strong>。它通过作用域的嵌套，为并发任务带来了类似于结构化编程的纪律性，核心解决了<strong>任务泄漏</strong>和<strong>取消传播</strong>的问题，使并发代码更易编写、推理和维护。</li>
+<li><strong>响应式操作库的并发</strong> 是一种 <strong>“异步数据流”的处理范式</strong>。它通过声明式的操作符组合，优雅地处理流动的数据，核心解决了<strong>复杂的异步变换</strong>和<strong>背压控制</strong>的问题。</li>
+</ul>
+<p>在技术选型上，不应将其视为二选一的对立项。理解它们各自的精髓，并在合适的场景运用合适的技术，甚至将两者结合（如 Kotlin Flow 所做的那样），才能打造出既高效又健壮的现代并发应用。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%9E%B6%E6%9E%84/" class="category-chain-item">架构</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%9E%B6%E6%9E%84/" class="print-no-link">#架构</a>
+      
+        <a href="/tags/%E7%BB%93%E6%9E%84%E5%8C%96%E5%B9%B6%E5%8F%91/" class="print-no-link">#结构化并发</a>
+      
+        <a href="/tags/%E5%93%8D%E5%BA%94%E5%BC%8F%E5%B9%B6%E5%8F%91/" class="print-no-link">#响应式并发</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>结构化并发与响应式并发</div>
+      <div>http://example.com/2025/11/12/architect/结构化并发与响应式并发/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Holy</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年11月12日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/11/11/architect/%E7%BB%93%E6%9E%84%E5%8C%96%E5%B9%B6%E5%8F%91/" title="结构化并发">
+                        <span class="hidden-mobile">结构化并发</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      粤ICP备18053694号
+    </a>
+  </span>
+  
+</div>
+
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
